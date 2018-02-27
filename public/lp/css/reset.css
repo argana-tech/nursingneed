@@ -1,0 +1,121 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@font-face {
+  font-family: "Yu Gothic";
+  src: local("Yu Gothic Medium");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Yu Gothic";
+  src: local("Yu Gothic Medium");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Yu Gothic";
+  src: local("Yu Gothic Medium");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Yu Gothic";
+  src: local("Yu Gothic Medium");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Yu Gothic";
+  src: local("Yu Gothic Bold");
+  font-weight: bold;
+}
+
+/* -------------------------------------------------------- reset &amp; defaultsetting */
+
+html {
+	font-size: 62.5%; /* 10px */
+}
+
+body {
+	color: #333;
+	font-size: 1.6rem; /* 16px base font-size */ 
+	font-family: -apple-system, BlinkMacSystemFont, メイリオ, Meiryo,sans-serif,"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic;
+	line-height: 1.5;
+	font-weight: 500;
+}
+
+body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ul, ol, li, 
+brockquote, pre, table, caption, th, td, address, 
+form, fieldset, legend, object, hr {
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, pre, table, code, kbd, samp, acronym, input, textarea, button, select {
+	font-family: -apple-system, BlinkMacSystemFont, メイリオ, Meiryo,sans-serif,"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic;
+	color: #333;
+	font-size: 1.6rem;	
+}
+
+a, ins {
+  	text-decoration: none;
+}
+
+address, em, cite, dfn, var {
+  	font-style:normal;
+}
+
+input, textarea, button, select {
+	font-family: -apple-system, BlinkMacSystemFont, メイリオ, Meiryo,sans-serif,"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic;
+	font-weight: 500;
+	-webkit-appearance: none;
+}
+
+img {
+	border: none;
+}
+
+.clearfix:after {
+  	content: ".";
+  	display: block;
+  	clear: both;
+  	height: 0;
+  	visibility: hidden;
+}
+
+.clearfix {
+  	min-height: 1px;
+}
+
+* html .clearfix {
+  	height: 1px;
+  	/*¥*//*/
+  	height: auto;
+  	overflow: hidden;
+  	/**/
+}
+
+a {
+	outline: none;
+}
+
+a:hover {
+	color:;
+	text-decoration: none;
+}
+
+
+
+/* @end */
+
+ul {
+	list-style: none;
+}
+
+
+
+/* other-font-family */
+
+/* ----------
+
+font-family: "Century Gothic",Meiryo,"メイリオ","游ゴシック",YuGothic,"Hiragino Kaku Gothic ProN","Hiragino Kaku Gothic Pro",serif;
+font-family: "Century Gothic","游ゴシック","Yu Gothic","游ゴシック体","YuGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+
+---------- */

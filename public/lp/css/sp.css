@@ -1,0 +1,842 @@
+@charset 'UTF-8';
+/* CSS Document */
+
+@media only screen and (max-width: 768px)
+{
+    body
+    {
+        min-width: inherit;
+    }
+}
+
+@media only screen and (max-width: 1000px)
+{
+	
+	body
+    {
+    	/* overflow-x: auto; */
+	}
+	
+	div.wrapper {
+		min-width: 100%;
+		/* overflow-x: auto;  */
+	}
+}
+
+@media only screen and (max-width: 768px)
+{
+
+    /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ common */
+
+    div.inner
+    {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 100%;
+		padding: 0 1em;
+    }
+	
+    .default
+    {
+        display: none;
+    }
+    .responsive
+    {
+        display: block;
+    }
+	
+	.resp_fs1 { font-size: 0.8rem !important; }
+	.resp_fs2 { font-size: 1.0rem !important; }
+	.resp_fs3 { font-size: 1.2rem !important; }
+	.resp_fs4 { font-size: 1.3rem !important; }
+	.resp_fs5 { font-size: 1.4rem !important; }
+	.resp_fs6 { font-size: 1.8rem !important; }
+	.resp_fs7 { font-size: 2.4rem !important; }
+	.resp_fs8 { font-size: 3.6rem !important; }
+	.resp_fs9 { font-size: 4.8rem !important; }
+	
+	.resp_w5 { width: 5%; }
+	.resp_w10 { width: 10%; }
+	.resp_w15 { width: 15%; }
+	.resp_w16 { width: 16%; }
+	.resp_w20 { width: 20%; }
+	.resp_w22 { width: 22%; }
+	.resp_w24 { width: 24%; }
+	.resp_w25 { width: 25%; }
+	.resp_w28 { width: 28%; }
+	.resp_w30 { width: 30%; }
+	.resp_w32 { width: 32%; }
+	.resp_w40 { width: 40%; }
+	.resp_w45 { width: 45%; }
+	.resp_w49 { width: 49%; }
+	.resp_w50 { width: 50%; }
+	.resp_w51 { width: 51%; }
+	.resp_w55 { width: 55%; }
+	.resp_w60 { width: 60%; }
+	.resp_w68 { width: 68%; }
+	.resp_w70 { width: 70%; }
+	.resp_w72 { width: 72%; }
+	.resp_w75 { width: 75%; }
+	.resp_w76 { width: 76%; }
+	.resp_w78 { width: 78%; }
+	.resp_w80 { width: 80%; }
+	.resp_w84 { width: 84%; }
+	.resp_w85 { width: 85%; }
+	.resp_w90 { width: 90%; }
+	.resp_w95 { width: 95%; }
+	.resp_w100 { width: 100%; }
+	
+	.resp_tc {
+		text-align: center;
+	}
+	
+	.resp_tl {
+		text-align: left;
+	}
+	
+	.resp_tr {
+		text-align: right;
+	}
+	
+	.resp_vt {
+		vertical-align: top;
+	}
+	
+	.resp_vm {
+		vertical-align: middle;
+	}
+	
+	.resp_vb {
+		vertical-align: bottom;
+	}
+	
+	.resp_m_o0 { margin-top: 0 !important; }
+	.resp_m_o1 { margin-top: 1% !important; }
+	.resp_m_o2 { margin-top: 2% !important; }
+	.resp_m_o4 { margin-top: 4% !important; }
+	
+	.resp_m_l0 { margin-left: 0 !important; }
+	.resp_m_l1 { margin-left: 1% !important; }
+	.resp_m_l2 { margin-left: 2% !important; }
+	.resp_m_l4 { margin-left: 4% !important; }
+	
+	.resp_m_r0 { margin-right: 0 !important; }
+	.resp_m_r1 { margin-right: 1% !important; }
+	.resp_m_r2 { margin-right: 2% !important; }
+	.resp_m_r4 { margin-right: 4% !important; }
+	
+	.resp_m_u0 { margin-bottom: 0 !important; }
+	.resp_m_u5 { margin-bottom: 5px !important; }
+	.resp_m_u10 { margin-bottom: 10px !important; }
+	.resp_m_u20 { margin-bottom: 20px !important; }
+	.resp_m_u30 { margin-bottom: 30px !important; }
+	.resp_m_u40 { margin-bottom: 40px !important; }
+	.resp_m_u50 { margin-bottom: 50px !important; }
+	.resp_m_u60 { margin-bottom: 60px !important; }
+	.resp_m_u80 { margin-bottom: 80px !important; }
+	
+	.fl,
+	.fr {
+		float: none;
+	}
+	
+	.resp_fl {
+		float: left;
+	}
+	
+	.resp_fr {
+		float: right;
+	}
+	
+	.resp_center {
+		margin-right: auto;
+		margin-left: auto;
+	}
+	
+	.google-maps {
+		position: relative;
+		padding-bottom: 75%;
+		height: 0;
+		overflow: hidden;
+	}
+	
+	.google-maps iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	.movieWrap {
+		position: relative;
+		padding-bottom: 56.25%;
+		padding-top: 30px;
+		height: 0;
+		overflow: hidden;
+	}
+	 
+	.movieWrap iframe,
+	.movieWrap object,
+	.movieWrap a {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100% !important;
+		height: 100% !important;
+	}
+	
+	/* table.deco-tb.form -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+	
+
+	
+	
+	
+	/* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- table.resp_block */
+
+	table.resp_block {
+		width: 100%;
+		border: none;
+	}
+	
+	table.deco-tb.resp_block {
+		border: none;
+	}
+	
+	table.resp_block thead {
+		display: none;
+	}
+	
+	table.resp_block tr {
+		display: block;
+		border: none;
+		margin-bottom: 2em;
+		/* border: 1px solid #e9ecef;
+		padding: 1em;
+		
+		border-radius: 5px; */
+	}
+
+	table.resp_block th {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	table.resp_block td {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0;
+		border: none;
+		margin-bottom: 1em;
+	}
+	
+	table.resp_block tr td:last-child {
+		margin-bottom: 0;
+	}
+	
+	table.resp_block tr td:first-child {
+		border-top: none;
+	}
+	
+	table.resp_block td:before {
+		content: attr(data-text)"";
+		display: block;
+		width: 100%;
+		font-weight: bold;
+		/* padding-top: 1em; */
+		background: #f8f8f8;
+		border: 1px solid #e9ecef;
+		border-left: none;
+		border-right: none;
+		padding: 0 0.5em;
+		box-sizing: border-box;
+		margin-bottom: 0.5em;
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------cell combine セルを結合するばあい */
+	
+	table.resp_block td.border-top-0 {
+		display: none;
+	}
+	
+	table.resp_block tr.cellcombine {
+		margin-bottom: 0;
+		border-top: none;
+		border-bottom: none;
+		border-radius: 0;
+	}
+	
+	table.resp_block tr.cellcombine:nth-child(2n) {
+		background: #f8f8f8;
+	}
+	
+	table.resp_block tr.cellcombine.first {
+		border-top: 1px solid #eee;
+		border-radius: 5px 5px 0 0;
+
+	}
+		
+	table.resp_block tr.cellcombine.last {
+		border-bottom: 1px solid #eee;
+		border-radius: 0 0 5px 5px;
+		margin-bottom: 2em;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ responsive-type-outer */
+	
+	div.responsive-type-outer {
+		overflow-x: scroll;
+    	-webkit-overflow-scrolling: touch;	
+	}
+	
+	div.responsive-type-outer table.deco-tb {
+		table-layout: auto;
+		white-space: nowrap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    /* -------------------------------------------------------- header */
+
+    header
+    {
+        width: 100%;
+    }
+	
+	header > div.inner {
+		height: auto;
+        padding: 0;
+		max-height: none;
+	}
+	
+    header div.top
+	{
+		display: none;
+	}
+	
+	header div.logo {
+		float: none;
+		padding: 0 0 0.5em 0;
+	}
+	
+	header div.logo a img,
+	footer div.logo a img
+	{
+		width: 85%;
+		height: auto;
+		display: block;
+	}
+
+    /* -------------------------------------------------------- header ul.utility */
+	
+	header>div.inner.clearfix>div.fr {
+		float: none;
+	}
+
+	header ul.utility {
+		background: #f0f0f0;
+    }
+
+	header ul.utility {
+		width: 100%;
+		text-align: center;
+    }
+
+	header ul.utility li a {
+		font-size: 1.1rem;
+		white-space: nowrap;
+		padding: 0 0.2em;
+	}
+	
+	header ul.utility li a::before {
+		border: none;
+		content: "";
+		height: auto;
+		left: 0;
+		margin: 0;
+		position: relative;
+		top: 0;
+		transform: none;
+		width: auto;
+	}
+    
+	/* -------------------------------------------------------- header nav */
+
+    header nav
+    {
+        left: 0;
+
+        overflow: visible;
+
+        width: 100%;
+    }
+
+    header nav div.inner
+    {
+        width: 100%;
+        padding: 0;
+    }
+
+    header nav ul
+    {
+        display: block;
+        overflow: hidden;
+
+        width: 100%;
+        max-height: 0;
+        margin: 0 auto;
+
+        transition: all .5s ease-in-out;
+    }
+
+    header nav ul.active
+    {
+        max-height: 1000px;
+    }
+
+    header nav ul li
+    {
+        font-size: 1.6rem;
+
+        display: block;
+
+        /* border-bottom: 1px solid #e6e6e6; */
+		height: 100%;
+    }
+	
+	header nav ul li:first-child
+    {
+        /* border-top: 1px solid #e6e6e6; */
+    }
+	
+    header nav ul li:last-child
+    {
+        border-bottom: none;
+    }
+
+    header nav ul li a
+    {
+        font-weight: bold;
+
+        position: relative;
+
+        display: block;
+
+        box-sizing: border-box;
+        width: 100%;
+		height: 100%;
+        padding: 18px 20px;
+
+        text-align: left;
+		
+		font-size: 1.6rem;
+    }
+
+    header nav ul li a:after
+    {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+		left: inherit;
+
+        display: block;
+
+        width: 5px;
+        height: 5px;
+        margin-top: -5px;
+
+        content: '';
+        transition: all .2s ease-in-out;
+        -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+
+        border-top: 2px solid #f35955;
+        border-right: 2px solid #f35955;
+		
+        background: none;
+    }
+
+    header nav ul li:first-child a::before
+    {
+        position: relative;
+        top: auto;
+        left: 0;
+
+        width: auto;
+        height: auto;
+        margin-top: 0;
+
+        content: '';
+
+        background: none;
+    }    
+	
+	/*
+    header nav ul li a::after
+    {
+        position: relative;
+        z-index: 9999;
+        bottom: 0;
+        left: 0;
+
+        width: 0;
+        height: auto;
+
+        content: '';
+
+        background: none;
+    }
+	*/
+
+	nav ul li a:hover:after
+	{
+		position: absolute;
+        top: 50%;
+        right: 15px;
+		left: inherit;
+
+        display: block;
+
+        width: 5px;
+        height: 5px;
+        margin-top: -5px;
+
+        content: '';
+        transition: all .2s ease-in-out;
+        -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+
+        border-top: 2px solid #f35955;
+        border-right: 2px solid #f35955;
+		
+        background: none;
+	}
+
+    nav ul li a:hover::after {
+        left: inherit;
+
+        width: 5px;
+		border-right: 2px solid #f75651;
+		border-top: 2px solid #f75651;
+    }
+	
+	nav ul li.current a
+	{
+		color: #333;
+	}
+	
+	nav ul li.current:after
+	{
+		position: relative;
+		content: "";
+		bottom: 0;
+		width: auto;
+		height: 0;
+		left: 0;
+		background: none;
+		-webkit-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+	}
+	
+    /* -------------------------------------------------------- menuButton */
+
+    header div.menuButton
+    {
+        position: absolute;
+		top: 0;
+		right: 0;
+
+        display: block;
+
+        width: 40px;
+        height: 40px;
+
+    }
+
+    header div.menuButton div.menu-trigger
+    {
+        display: block;
+
+        cursor: pointer;
+    }
+
+    header div.menuButton div.menu-trigger > div
+    {
+        position: relative;
+
+        display: block;
+
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+    }
+
+    header div.menuButton div.menu-trigger > div div.label
+    {
+        font-size: 1.0rem;
+        font-weight: bold;
+
+        position: absolute;
+
+        box-sizing: border-box;
+        width: 40px;
+
+        color: #ff7a00;
+		
+		bottom: -0.5em;
+		text-align: center;
+    }
+
+    header div.menuButton div.menu-trigger > div div.label::before
+    {
+        content: 'MENU';
+    }
+
+    header div.menuButton div.menu-trigger > div div.label.open::before
+    {
+        content: 'CLOSE';
+    }
+
+    header div.menuButton div.menu-trigger > div div.hamburger
+    {
+        position: relative;
+
+        width: 40px;
+        height: 40px;
+    }
+
+    header div.menuButton span
+    {
+        position: absolute;
+        left: 0;
+
+        display: inline-block;
+
+        box-sizing: border-box;
+        width: 20px;
+        height: 2px;
+
+        transition: all .4s;
+
+        background: #ff7a00;
+    }
+
+    header div.menuButton span:nth-of-type(1)
+    {
+        top: 13px;
+        left: 10px;
+    }
+
+    header div.menuButton span:nth-of-type(2)
+    {
+        top: 19px;
+        left: 10px;
+    }
+
+    header div.menuButton span:nth-of-type(3)
+    {
+        bottom: 13px;
+        left: 10px;
+    }
+
+    header div.menuButton.active span:nth-of-type(1)
+    {
+        -webkit-transform: translateY(6px) rotate(-45deg);
+                transform: translateY(6px) rotate(-45deg);
+    }
+
+    header div.menuButton.active span:nth-of-type(2)
+    {
+        opacity: 0;
+    }
+
+    header div.menuButton.active span:nth-of-type(3)
+    {
+        -webkit-transform: translateY(-6px) rotate(45deg);
+                transform: translateY(-6px) rotate(45deg);
+    }
+
+    /* ie9 */
+	/*
+    html.ie9 header div.menuButton
+    {
+        position: relative;
+
+        display: block;
+
+        width: 100%;
+        height: 40px;
+
+        background: #003e6c;
+    }
+
+    html.ie9 header div.menuButton div.menu-trigger > div div.hamburger
+    {
+        background: url(../img/menubutton.png) no-repeat;
+        background-position: center;
+        background-size: 20px 20px;
+    }
+
+    html.ie9 header div.menuButton.active div.menu-trigger > div div.hamburger
+    {
+        background: url(../img/menubutton_active.png) no-repeat;
+        background-position: center;
+        background-size: 20px 20px;
+    }
+
+    html.ie9 header div.menuButton span
+    {
+        display: none;
+    }
+	*/
+	
+	
+	 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ common */
+	 
+	 
+ /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ section */
+ 
+section.mainVisual img.default {
+    display: none;
+}
+
+section.mainVisual img.responsive {
+    display: block;
+}
+ 
+section div.point {
+    height: 80px;
+    width: 80px;
+	top: 10px;
+}	
+	 
+section div.point > div.label div.ja,
+section div.point > div.label div.ja h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 0;
+    white-space: nowrap;
+}	
+
+section div.point > div.label div.en {
+    font-size: 1.6rem;
+}
+
+section > div.title {
+    color: #31424e;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+	padding: 0 1em;
+}
+
+section.feature div.article {
+    float: none;
+    margin-bottom: 1em;
+    margin-right: 0;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+	
+section.feature div.article div.labelWrap {
+    height: 60px;
+    width: 60px;
+	top: -10px;
+}
+
+section.feature div.article div.labelWrap img {
+    height: 40px;
+    width: 40px;
+}
+	
+section.feature div.article div.subTitle {
+    font-size: 2.4rem;
+}
+
+section.flow div.article {
+    padding: 0;
+}
+
+section.flow div.article div.subTitle {
+    font-size: 2.4rem;
+}
+
+section.flow div.article div.subTitle span.number {
+  
+    font-size: 2.4rem;
+}
+	
+section.contact div.point {
+    top: -40px;
+}
+
+/* */
+
+section.mainVisual.community {
+	height: auto;
+	background: none;
+}
+
+section.mainVisual.community img.default {
+    display: none;
+}
+
+section.mainVisual.community img.responsive {
+    display: block;
+}
+
+section.project div.article {
+    float: none;
+	width: 100%;
+    margin-right: 0;
+}
+section.project div.article:nth-child(3n) {
+}
+
+section.project div.article div.projectTitle {
+    font-size: 2.2rem;
+    padding: 0 0.5em;
+}
+
+
+
+section.field div.article {
+    float: none;
+	width: 100%;
+    margin-right: 0;
+}
+section.field div.article:nth-child(3n) {
+}
+
+section.field div.article div.fieldTitle {
+    font-size: 2.2rem;
+    padding: 0.5em 0 0;
+}

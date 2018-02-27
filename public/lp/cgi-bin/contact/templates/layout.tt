@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<link rel="shortcut icon" href="img/favicon.ico">
+<meta name="description" content="">
+<meta name="keywords" content="" lang="ja">
+<title>Argana アーガナ</title>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="img/ogp.png" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:site_name" content="" />
+
+
+
+<meta name="viewport" content="width=device-width">
+<meta name="format-detection" content="telephone=no">
+
+
+
+<link rel="stylesheet" href="/css/reset.css" type="text/css" >
+<link rel="stylesheet" href="/css/style.css" type="text/css" >
+<link rel="stylesheet" href="/css/sp.css" type="text/css" >
+<link rel="stylesheet" href="/css/font_style.css" type="text/css" >
+
+<script type="text/javascript" src="//code.jquery.com/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/js/original.js"></script>
+</head>
+
+<body>
+<noscript>
+<div> 当ホームページでは、お客さまにより便利にご利用いただけるよう、JavaScriptを使用しております。<br />
+  JavaScriptを無効にして使用された場合、コンテンツが正常に表示されない場合がございます。<br />
+  JavaScriptを有効にしてご覧いただきますようお願いいたします。 </div>
+</noscript>
+<a id="top"></a>
+<header>
+  <div class="inner clearfix">
+    <div class="logo fl">
+      <h1><a href="/index.html"><img src="/img/logo_community.png" alt=""></a></h1>
+    </div>
+    <!-- / .logo.fl -->
+    <div class="menuButton">
+      <div class="menu-trigger">
+        <div class="clearfix">
+          <div class="label"></div>
+          <!-- / .MENU -->
+          <div class="hamburger"><span></span> <span></span> <span></span></div>
+          <!-- / .hamburger -->
+        </div>
+        <!-- / .clearfix -->
+      </div>
+      <!-- / .menu-triger -->
+    </div>
+    <!-- / .menuButton -->
+    <div class="fr ">
+      <!-- <ul class="utility">
+        <li><a href="#">link</a></li>
+        <li><a href="#">link</a></li>
+        <li><a href="#">link</a></li>
+        <li><a href="#">link</a></li>
+      </ul> -->
+      <!-- / .utility -->
+      <nav>
+        <ul class="clearfix">         
+          <li><a href="/project.html">プロジェクト</a></li>
+          <li><a href="/cgi-bin/contact/index.cgi">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- / .fr  -->
+  </div>
+  <!-- / .inner.clearfix -->
+</header>
+<div class="wrapper">
+    [% content %]
+</div>
+<!-- / .wrapper -->
+<div class="pageTop"> <a href="#top" class="scroll"></a></div>
+<!-- / .pageTop -->
+<footer id="footer">
+  <div class="container">
+    <div class="copyright">Copyright &copy; ksmedics All Rights Reserved.</div>
+  </div>
+  <!-- / .inner -->
+</footer>
+</body>
+</html>

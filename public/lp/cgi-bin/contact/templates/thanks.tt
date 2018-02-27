@@ -1,0 +1,19 @@
+  <section>
+    <div class="title">
+      <div class="inner">
+        <div class="ja">
+          <h2 class="fs8">お問い合わせの送信完了</h2>
+        </div>
+      </div>
+    </div>
+    <div class="inner">
+      <div class="deco-box tc resp_tl">
+        <p>この度はArganaのプロジェクトをご利用いただきまして、誠にありがとうございます。<br />
+          お問い合わせいただきました内容を確認後、担当者より改めてご連絡いたします。</p>
+        <p>一週間以上こちらからの返答がない場合には、お手数ですがお電話にてご確認をお願い致します。</p>
+      </div>
+      <!-- / .tc .resp_tl -->
+    </div>
+    <!-- / .inner -->
+  </section>
+  <!-- / .section -->
