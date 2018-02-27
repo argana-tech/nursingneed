@@ -2,10 +2,15 @@
 
 ## Development
 
-```
-$ git clone
+Please install  
+* [VirtualBox](https://www.virtualbox.org/)
+* [Vagrant](https://www.vagrantup.com/)
 
-$ cd argana_nursingneed/dev
+
+```
+$ git clone git@github.com:argana-tech/nursingneed.git
+
+$ cd nursingneed/dev
 $ vagrant up
 ```
 
