@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class ResultTargetDay extends Model
 {
     protected $fillable = [
-        'result_id', 'date', 'c_master_days', 'count_days', 'status', 'remark', 'h_ward', 'ef_ward', 'content_type', 'is_syutyu'
+        'result_id', 'date', 'c_master_days', 'count_days', 'status', 'remark', 'h_ward', 'ef_ward', 'ef_name', 'content_type', 'is_syutyu'
     ];
 
     public static function getMinDate() {

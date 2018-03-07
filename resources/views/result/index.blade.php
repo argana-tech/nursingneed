@@ -105,7 +105,7 @@
       </table>
 
       <div class="table-type-outer m_u40">
-        <table class="deco-tb w100 tc data-table fixed">
+        <table class="deco-tb w100 tc data-table fixed m_u80">
           <tbody>
             @foreach($results as $result)
               @php
@@ -123,13 +123,10 @@
                 @if (!count($resultADay) && !count($resultCDay))
                   <td class="color-gray"></td>
                 @else
-                  @if (@$resultADay->is_syutyu || @$resultCDay->is_syutyu)
-                  <td class="hcu color-purple"></td>
-                  @elseif (@$resultADay->status == 'not checked' || @$resultCDay->status == 'not checked')
-                  <td class="ippan color-red"></td>
-                  @else (@$resultADay->status == 'checked' && @$resultCDay->status == 'checked')
-                  <td class="ippan color-white"></td>
-                  @endif 
+                  <td class="
+                    @if (@$resultADay->is_syutyu || @$resultCDay->is_syutyu) hcu @else ippan @endif
+                    @if (@$resultADay->status == 'not checked' || @$resultCDay->status == 'not checked') color-red @else color-white @endif
+                  "></td>
                 @endif
               @endforeach
             </tr>
@@ -142,7 +139,12 @@
                   @if ($resultDay->status == 'checked')
                   <td class="color-white"></td>
                   @elseif ($resultDay->status == 'not checked')
-                  <td class="color-red"></td>
+                  <td class="color-red hover">
+                    <div class="details">
+                      <div class="ope"> {{ $resultDay->ef_name }}</div>
+                      <div class="count">1日目</div>
+                    </div>
+                  </td>
                   @else
                   <td class="color-white"></td>
                   @endif 
@@ -160,7 +162,12 @@
                   @elseif ($resultDay->status == 'checked')
                   <td class="color-white"></td>
                   @elseif ($resultDay->status == 'not checked')
-                  <td class="color-red"></td>
+                  <td class="color-red hover">
+                    <div class="details">
+                      <div class="ope"> {{ $resultDay->ef_name }}</div>
+                      <div class="count">{{ $resultDay->count_days }}日目</div>
+                    </div>
+                  </td>
                   @else
                   <td class="color-white"></td>
                   @endif 

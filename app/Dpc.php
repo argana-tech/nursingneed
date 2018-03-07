@@ -165,6 +165,7 @@ class Dpc extends Model
                         'status' => @$v['status'],
                         'remark' => @$v['remark'],
                         'ef_ward' => @$v['ef_byoutou'],
+                        'ef_name' => @$v['ef_name'],
                         'h_ward' => @$v['h_byoutou'],
                         'content_type' => 'A',
                         'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
@@ -177,10 +178,11 @@ class Dpc extends Model
                         'result_id' => $result->id,
                         'date' => $k,
                         'c_master_days' => $v['master_days'],
-                        //'count_days' => , 〇日目
+                        'count_days' => $v['count_days'],
                         'status' => @$v['status'],
                         'remark' => @$v['remark'],
                         'ef_ward' => @$v['ef_byoutou'],
+                        'ef_name' => @$v['ef_name'],
                         'h_ward' => @$v['h_byoutou'],
                         'content_type' => 'C',
                         'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
@@ -635,13 +637,15 @@ class Dpc extends Model
                         'master_days' => 1, // 処置は「1日」
                         //'status' => 'syutyu',
                         'status' => 'not checked', // A項目は集中も対象
-                        'ef_byoutou' => $byoutou
+                        'ef_byoutou' => $byoutou,
+                        'ef_name' => $value['ef_name']
                     ];
                 } else {
                     $userData['a_date_check'][$targetDate->format('Y-m-d')] = [
                         'master_days' => 1, // 処置は「1日」
                         'status' => 'not checked',
-                        'ef_byoutou' => $byoutou
+                        'ef_byoutou' => $byoutou,
+                        'ef_name' => $value['ef_name']
                     ];
                 }
             }
@@ -692,17 +696,20 @@ class Dpc extends Model
                     if (!empty($userData['syutyu_days'][$targetDate->format('Y-m-d')])) {
                         $userData['c_date_check'][$targetDate->format('Y-m-d')] = [
                             'master_days' => max([$value['master_days'], $currentMasterDays]),
+                            'count_days' => $index + 1,
                             'status' => 'syutyu',
-                            'ef_byoutou' => $byoutou
+                            'ef_byoutou' => $byoutou,
+                            'ef_name' => $value['ef_name']
                         ];
                     } else {
                         $userData['c_date_check'][$targetDate->format('Y-m-d')] = [
                             'master_days' => max([$value['master_days'], $currentMasterDays]),
+                            'count_days' => $index + 1,
                             'status' => 'not checked',
-                            'ef_byoutou' => $byoutou
+                            'ef_byoutou' => $byoutou,
+                            'ef_name' => $value['ef_name']
                         ];
                     }
-
                 }
             }
 
@@ -895,6 +902,9 @@ class Dpc extends Model
 
     private static function encryptionByCodo($id, $code)
     {
+        $id = str_replace(array(' ', '　'), '', $id);
+        $code = str_replace(array(' ', '　'), '', $code);
+
         if (empty($id) || empty($code)) {
             return $id;
         }

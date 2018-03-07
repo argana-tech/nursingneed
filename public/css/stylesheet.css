@@ -274,11 +274,12 @@ div.description-box>div.purple:before {	background: #ccadf8;	border: 1px solid #
 div.table-type-outer {		
 	-webkit-overflow-scrolling: touch;		
 	overflow: auto;
-	overflow-x: scroll;
+	overflow-x: hidden;
 	position: relative;
 	height: 500px;
 	/* margin-right: -15px; */
 	width: 1200px;
+	border: 1px solid #ccc;
 }
 
 div.table-type-outer table {
@@ -358,11 +359,11 @@ table.data-table td.hcu:after { position: absolute; top: 0.4em; left:0; content:
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ hover */
 
-table.data-table td.color-red {
+table.data-table td.color-red.hover {
 	position: relative;
 }
 
-table.data-table td.color-red div.details {
+table.data-table td.color-red.hover div.details {
 	position: absolute;
 	top: -2em;
 	right: 2em;
@@ -385,22 +386,23 @@ table.data-table td.color-red div.details {
 	text-align: left;
 }
 
-table.data-table td.color-red:hover {
+table.data-table td.color-red.hover:hover {
 	cursor: pointer;
+    background: #e68ba6; border: 1px solid #e61c58; background-clip: padding-box;
 }
 
-table.data-table td.color-red:hover div.details {
+table.data-table td.color-red.hover:hover div.details {
 	display: block;
 	opacity: 1;
 	top: 0;
 }
 
-table.data-table td.color-red:hover div.details div.ope {
+table.data-table td.color-red.hover:hover div.details div.ope {
 	margin-bottom: 0.5em;
 	font-weight: bold;
 }
 
-table.data-table td.color-red:hover div.details div.count {
+table.data-table td.color-red.hover:hover div.details div.count {
 }
 
 @keyframes show-balloon {
