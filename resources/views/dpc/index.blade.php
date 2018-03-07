@@ -50,7 +50,7 @@
           <hr>
           <div class="row">
             <div class="col-xs-6">
-              <label class="control-label" for="chk_code"><input type="checkbox" value="1" name="chk_code" id="chk_code" class="dpc_chk_code"> 施設コード、識別番号を暗号化</label>
+              <label class="control-label" for="chk_code"><input type="checkbox" value="1" name="chk_code" id="chk_code" class="dpc_chk_code" checked="checked"> 施設コード、識別番号を暗号化</label>
               <p>施設コード・識別番号に、入力した暗号化コードを加算して取り込みます。</p>
 
               <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }} dpc_chk_area"><br>

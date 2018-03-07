@@ -54,13 +54,24 @@
       </form>
       <div class="m_u10">
         <div class="clearfix">
-          <div class="pull-left"> {{ Carbon\Carbon::parse($month . "-01")->format('Y') }}年<span class="h3">{{ Carbon\Carbon::parse($month . "-01")->format('m') }}</span>月</div>
-          <div class="pull-left">
+          <div class="pull-left"><span class="glyphicon glyphicon-calendar"></span> {{ Carbon\Carbon::parse($month . "-01")->format('Y') }}年<span class="h3">{{ Carbon\Carbon::parse($month . "-01")->format('m') }}</span>月</div>
+          <div class="pull-left" style="margin-left:15px;">
             @if(Carbon\Carbon::parse($resultMinDate)->format('Ym') < Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&month={{ Carbon\Carbon::parse($month . "-01")->subMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">前月</a>@endif
             @if(Carbon\Carbon::parse($resultMaxDate)->format('Ym') > Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&month={{ Carbon\Carbon::parse($month . "-01")->addMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">次月</a>@endif
           </div>
           <!-- / .pull-left -->
-          <div class="pull-right">@if($updatedResult) (最終ファイル更新日 : {{ Carbon\Carbon::parse($updatedResult->updated_at)->format('Y-m-d H:i') }})@endif</div>
+          <div class="pull-right">@if($updatedResult) 更新日 : {{ Carbon\Carbon::parse($updatedResult->updated_at)->format('Y-m-d H:i') }}@endif</div>
+          <div class="pull-right">
+            <div class="description-box clearfix">
+              <div class="white">一致</div>
+              <!-- / .white -->
+              <div class="red">チェック漏れ</div>
+              <!-- / .red -->
+              <div class="purple">対象外</div>
+              <!-- / .purple -->
+            </div>
+          </div>
+          <!-- / .description-box -->
         </div>
         <!-- / .clearfix -->
       </div>
@@ -70,28 +81,31 @@
         $endDay = Carbon\Carbon::parse($month . "-01")->endOfMonth()->format('d');
       @endphp
 
+      <table class="deco-tb w100 tc data-table fixed header">
+        <thead class="head">
+          <tr>
+            <th rowspan="2" style="width: 175px;" class="head">データ識別番号</th>
+            <th>&nbsp;</th>
+            @for($d=$firstDay;$d<=$endDay;$d++)
+            <th> {{ $d }} </th>
+            @endfor
+          </tr>
+          <tr>
+            <th> </th>
+            @php $weeks = ['日', '月', '火', '水', '木', '金', '土']; @endphp
+            @for($d=$firstDay;$d<=$endDay;$d++)
+              @php
+                Carbon\Carbon::setlocale('ja');
+                $w = Carbon\Carbon::parse($month.'-'.$d)->dayOfWeek;
+              @endphp
+            <th> {{ $weeks[$w] }} </th>
+            @endfor
+          </tr>
+        </thead>
+      </table>
+
       <div class="table-type-outer m_u40">
-        <table class="deco-tb w100 tc data-table">
-          <thead class="head">
-            <tr>
-              <th rowspan="2" class="head">データ識別番号</th>
-              <th>&nbsp;</th>
-              @for($d=$firstDay;$d<=$endDay;$d++)
-              <th> {{ $d }} </th>
-              @endfor
-            </tr>
-            <tr>
-              <th> </th>
-              @php $weeks = ['日', '月', '火', '水', '木', '金', '土']; @endphp
-              @for($d=$firstDay;$d<=$endDay;$d++)
-                @php
-                  Carbon\Carbon::setlocale('ja');
-                  $w = Carbon\Carbon::parse($month.'-'.$d)->dayOfWeek;
-                @endphp
-              <th> {{ $weeks[$w] }} </th>
-              @endfor
-            </tr>
-          </thead>
+        <table class="deco-tb w100 tc data-table fixed">
           <tbody>
             @foreach($results as $result)
               @php
@@ -99,8 +113,8 @@
                 $resultCDays = $result->resultCDays($month, $firstDay, $endDay);
               @endphp
             <tr>
-              <td rowspan="3"><a href="{{ route('results.show', $result->id) }}?month={{ $month }}" target="_blank">{{ $result->identification_id }}</a></td>
-              <td>票</td>
+              <td rowspan="3" class="head"><a href="{{ route('results.show', $result->id) }}?month={{ $month }}" target="_blank">{{ $result->identification_id }}</a></td>
+              <td>棟</td>
               @foreach($result->resultDays($month, $firstDay, $endDay) as $day => $resultDay)
                 @php
                   $resultADay = @$resultADays[$day];
