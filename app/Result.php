@@ -66,7 +66,7 @@ class Result extends Model
             $targetDate = $targetDate->addDay();
         }
 
-        if ($targetDate->format('Y-m-d') < $endDate->format('Y-m-d')) {
+        if ($targetDate->format('Y-m-d') <= $endDate->format('Y-m-d')) {
             // 対象日になるまで [] を格納
             while($targetDate->format('Y-m-d') <= $endDate->format('Y-m-d')) {
                 $targetDays[$targetDate->format('d')] = [];

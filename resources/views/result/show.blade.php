@@ -10,25 +10,27 @@
 
 @section('content')
 @php
-$weeks = ['日', '月', '火', '水', '木', '金', '土'];
-$inWardDays = [];
+  $weeks = ['日', '月', '火', '水', '木', '金', '土'];
 
-$inWardDay = $result->inWardDay();
-$outWardDay = $result->outWardDay();
+  $firstDay = Carbon\Carbon::parse($month . "-01")->format('1');
+  $endDay = Carbon\Carbon::parse($month . "-01")->endOfMonth()->format('d');
 
-$dayCounter = clone $inWardDay;
+  $resultADays = $result->resultADays($month, $firstDay, $endDay);
+  $resultCDays = $result->resultCDays($month, $firstDay, $endDay);
 
-while ($dayCounter->lte($outWardDay)):
-  if (
-    $month == $dayCounter->format('Y-m')
-      && (
-        $result->resultTargetADays()->where('date', $dayCounter->format('Y-m-d'))->first()
-        || $result->resultTargetCDays()->where('date', $dayCounter->format('Y-m-d'))->first()
-      )
-  ) $inWardDays[] = clone $dayCounter;
+  $resultDays = [];
+  $inWardDay = $result->inWardDay();
+  foreach($result->resultDays($month, $firstDay, $endDay) as $day => $resultDay) {
+    $resultADay = @$resultADays[$day];
+    $resultCDay = @$resultCDays[$day];
 
-  $dayCounter->addDay();
-endwhile;
+    if (count($resultADay) || count($resultCDay)) {
+      $resultDays[$day] = [
+        'a' => $resultADay,
+        'c' => $resultCDay,
+      ];
+    }
+  }
 
 @endphp
       <h2>詳細結果</h2>
@@ -38,7 +40,6 @@ endwhile;
             <tr>
               <th>データ識別番号</th>
               <th>入院日</th>
-              <!-- th>退院日</th -->
               <th>在院日数</th>
             </tr>
           </thead>
@@ -46,8 +47,7 @@ endwhile;
             <tr>
               <td>{{ $result->identification_id }}</td>
               <td>{{ $inWardDay->format('Y年m月d日') }}</td>
-              <!-- td>{{ $outWardDay->format('Y年m月d日') }}</td -->
-              <td>{{ $inWardDay->diffInDays($outWardDay) + 1 }}日</td>
+              <td>{{ count($resultDays) }}日</td>
             </tr>
           </tbody>
         </table>
@@ -58,7 +58,8 @@ endwhile;
           <thead class="head">
             <tr>
               <th class="head">実施日</th>
-@foreach ($inWardDays as $date)
+@foreach ($resultDays as $day => $data)
+@php $date = Carbon\Carbon::parse($month . "-" . $day); @endphp
               <th>{{ $date->format('Y年m月d日') }}({{ $weeks[$date->dayOfWeek] }})</th>
 @endforeach
             </tr>
@@ -66,9 +67,9 @@ endwhile;
           <tbody>
             <tr>
               <td class="vt">A / モニタリング及び処置等 </td>
-@foreach ($inWardDays as $date)
+@foreach ($resultDays as $day => $data)
 @php
-$resultDay = $result->resultTargetADays()->where('date', $date->format('Y-m-d'))->first();
+$resultDay = $data['a'];
 @endphp
 @if ($resultDay && $resultDay->status == 'checked')
 <td class="color-white"> @if($resultDay->is_syutyu) 集中 @else 一般@endif </td>
@@ -81,14 +82,14 @@ $resultDay = $result->resultTargetADays()->where('date', $date->format('Y-m-d'))
             </tr>
             <tr>
               <td class="vt">C / 手術等の医学的状況 </td>
-@foreach ($inWardDays as $date)
+@foreach ($resultDays as $day => $data)
 @php
-$resultDay = $result->resultTargetCDays()->where('date', $date->format('Y-m-d'))->first();
+$resultDay = $data['c'];
 @endphp
 @if ($resultDay && $resultDay->is_syutyu)
 <td class="hcu color-purple"> 集中 </td>
 @elseif ($resultDay && $resultDay->status == 'checked')
-<td class="ippan color-white"> </td>
+<td class="ippan color-white"> 一般 </td>
 @elseif ($resultDay && $resultDay->status == 'not checked')
 <td class="ippan color-red"> 一般:差異あり </td>
 @else
