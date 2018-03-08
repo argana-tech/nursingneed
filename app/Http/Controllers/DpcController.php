@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Dpc as DpcRequest;
 use Validator;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use App\SystemSetting;
 use App\Dpc;
 use App\User;
@@ -69,6 +70,8 @@ class DpcController extends Controller
         $user->dpc_import_status = User::$dpc_status_successfully;
         $user->save();
 
+        $user->dpc_imported_at = Carbon::now()->format('Y-m-d H:i:s');
+
         // 非同期処理
         Log::error('dispatch DpcImportJob start');
         dispatch(new DpcImportJob(
@@ -76,7 +79,8 @@ class DpcController extends Controller
             $efFile,
             $hFile,
             $code,
-            $request->input('end_date')
+            $request->input('end_date'),
+            $user->dpc_imported_at
         ));
         Log::error('dispatch DpcImportJob end');
 
@@ -85,6 +89,8 @@ class DpcController extends Controller
         return response()
             ->view('dpc.upload', [
                 'errorMessages' => false,
+                'code' => $code,
+                'strageKey' => $user->strageKey()
             ])
             ;
     }

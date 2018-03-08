@@ -23,7 +23,7 @@ class User extends Authenticatable
     public static $dpc_status_failed = 'NG';
 
     protected $fillable = [
-        'email', 'password',
+        'email', 'password', 'name',
     ];
 
     protected $hidden = [
@@ -33,6 +33,44 @@ class User extends Authenticatable
     public function isDpcLoading()
     {
         return $this->is_dpc_loading;
+    }
+
+    public function strageKey()
+    {
+        return sprintf("%s_%d_%s",
+            'argana',
+            $this->id,
+            $this->dpc_imported_at ? Carbon::parse($this->dpc_imported_at)->format('YmdHis') : ""
+        );
+    }
+
+    public function results() {
+        return $this->hasMany('App\Result')
+            ->orderBy('id', 'asc');
+    }
+
+    public function resultTargetDays() {
+        return $this->hasMany('App\ResultTargetDay');
+    }
+
+    public function resultInIntensiveWardDays() {
+        return $this->hasMany('App\ResultInIntensiveWardDay');
+    }
+
+    public function resultTargetOperationData() {
+        return $this->hasMany('App\ResultTargetOperationData');
+    }
+
+    public function resultReferenceOperationData() {
+        return $this->hasMany('App\ResultReferenceOperationData');
+    }
+
+    public function resultUsedHFileCData() {
+        return $this->hasMany('App\ResultUsedHFileCData');
+    }
+
+    public function resultUnusedHFileCData() {
+        return $this->hasMany('App\ResultUnusedHFileCData');
     }
 
 }

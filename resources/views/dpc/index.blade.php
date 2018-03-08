@@ -49,9 +49,12 @@
           <!-- / .row -->
           <hr>
           <div class="row">
-            <div class="col-xs-6">
-              <label class="control-label" for="chk_code"><input type="checkbox" value="1" name="chk_code" id="chk_code" class="dpc_chk_code" checked="checked"> 施設コード、識別番号を暗号化</label>
-              <p>施設コード・識別番号に、入力した暗号化コードを加算して取り込みます。</p>
+            <div class="col-xs-8">
+              <label class="control-label" for="chk_code"><input type="checkbox" value="1" name="chk_code" id="chk_code" class="dpc_chk_code" checked="checked"> 識別番号を暗号化</label>
+              <p>
+                サーバー上に識別番号を残したくない場合に選択してください。<br>
+                このブラウザ以外でアクセスした場合、識別番号は下記の暗号化コードが加算された値が表示されます。
+              </p>
 
               <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }} dpc_chk_area"><br>
                 <label class="control-label" for="code">暗号化コード</label>

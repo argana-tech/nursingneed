@@ -16,6 +16,21 @@ $(function(){
 });
 
 $(function(){
+    // 識別IDの復号
+    var code = 0;
+    var strageKey = localStrageKey;
+    if (window.localStorage) {
+      code = window.localStorage.getItem(strageKey);
+    }
+
+    $(".decryption_identification_id").each(function(i, obj){
+      var id = $(obj).attr('data-iid');
+      if (code) {
+        id = id - code;
+      }
+      $(obj).text(id);
+    });
+
     /*$(document).on('click', '.upload-btn', function(event){
         $('#loading').addClass('show');
 

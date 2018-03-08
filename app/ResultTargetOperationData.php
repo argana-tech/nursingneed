@@ -17,7 +17,7 @@ class ResultTargetOperationData extends Model
     protected $table = 'result_target_operation_data';
 
     protected $fillable = [
-        'result_id', 'date', 'tensu_code', 'densan_code', 'ef_name', 'c_master_name', 'c_master_days', 'start_date', 'end_date', 'remark', 'ward'
+        'user_id', 'result_id', 'date', 'tensu_code', 'densan_code', 'ef_name', 'c_master_name', 'c_master_days', 'start_date', 'end_date', 'remark', 'ward'
     ];
 
     public function result()

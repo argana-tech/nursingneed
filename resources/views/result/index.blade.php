@@ -9,7 +9,6 @@
 ?>
 
 @section('content')
-
       <div class="flowNav steps">
         <ul>
           <li><a href="{{ route('dpc.index') }}" class="flow">ファイル取込</a></li>
@@ -60,7 +59,7 @@
             @if(Carbon\Carbon::parse($resultMaxDate)->format('Ym') > Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&month={{ Carbon\Carbon::parse($month . "-01")->addMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">次月</a>@endif
           </div>
           <!-- / .pull-left -->
-          <div class="pull-right">@if($updatedResult) 更新日 : {{ Carbon\Carbon::parse($updatedResult->updated_at)->format('Y-m-d H:i') }}@endif</div>
+          <div class="pull-right">@if($updatedResult) 更新日 : {{ Carbon\Carbon::parse($updatedResult)->format('Y-m-d H:i') }}@endif</div>
           <div class="pull-right">
             <div class="description-box clearfix">
               <div class="white">一致</div>
@@ -113,7 +112,11 @@
                 $resultCDays = $result->resultCDays($month, $firstDay, $endDay);
               @endphp
             <tr>
-              <td rowspan="3" class="head"><a href="{{ route('results.show', $result->id) }}?month={{ $month }}" target="_blank">{{ $result->identification_id }}</a></td>
+              <td rowspan="3" class="head">
+                <a href="{{ route('results.show', $result->id) }}?month={{ $month }}" target="_blank" class="decryption_identification_id" data-iid="{{ $result->identification_id }}">
+                  <img src="{{ asset('img/icon_loading-m.gif') }}" alt="{{ $result->identification_id }}">
+                </a>
+              </td>
               <td>棟</td>
               @foreach($result->resultDays($month, $firstDay, $endDay) as $day => $resultDay)
                 @php
@@ -179,5 +182,4 @@
         </table>
       </div>
       <!-- / .table-type-outer -->
-
 @endsection

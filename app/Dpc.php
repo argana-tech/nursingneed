@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
+use App\User;
 use App\AItem;
 use App\CItem;
 use App\SystemSetting;
@@ -104,16 +105,18 @@ class Dpc extends Model
         $sankaCount = 0;
         $kodomoCount = 0;
 
+        $user = User::findOrFail($userId);
+
         DB::beginTransaction();
 
         try {
-            Result::getQuery()->delete();
-            ResultTargetDay::getQuery()->delete();
-            ResultInIntensiveWardDay::getQuery()->delete();
-            ResultTargetOperationData::getQuery()->delete();
-            ResultReferenceOperationData::getQuery()->delete();
-            ResultUsedHFileCData::getQuery()->delete();
-            ResultUnusedHFileCData::getQuery()->delete();
+            $user->results()->delete();
+            $user->resultTargetDays()->delete();
+            $user->resultInIntensiveWardDays()->delete();
+            $user->resultTargetOperationData()->delete();
+            $user->resultReferenceOperationData()->delete();
+            $user->resultUsedHFileCData()->delete();
+            $user->resultUnusedHFileCData()->delete();
 
             foreach($results as $sikibetuId => $userData) {
                 // C項目・A項目どちらにも該当しない場合はスキップ
@@ -148,6 +151,7 @@ class Dpc extends Model
                 }
 
                 $result = Result::create([
+                    'user_id' => $userId,
                     'identification_id' => self::encryptionByCodo($sikibetuId, $code),
                     'target_days' => $userData['target_days'],
                     'unchecked_days' => $userData['not_checked_days'],
@@ -159,6 +163,7 @@ class Dpc extends Model
                 // a items
                 foreach($userData['a_date_check'] as $k => $v) {
                     ResultTargetDay::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'date' => $k,
                         'c_master_days' => null,
@@ -175,6 +180,7 @@ class Dpc extends Model
                 // c items
                 foreach($userData['c_date_check'] as $k => $v) {
                     ResultTargetDay::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'date' => $k,
                         'c_master_days' => $v['master_days'],
@@ -191,6 +197,7 @@ class Dpc extends Model
 
                 foreach($userData['syutyu_days'] as $k => $v) {
                     ResultInIntensiveWardDay::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'date' => $k,
                         'name' => $v,
@@ -199,6 +206,7 @@ class Dpc extends Model
 
                 foreach($userData['syujutsu'] as $a) {
                     ResultTargetOperationData::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'date' => $a['do_date'],
                         'tensu_code' => @$a['tensu_code'],
@@ -215,6 +223,7 @@ class Dpc extends Model
 
                 foreach($userData['sankou'] as $a) {
                     ResultReferenceOperationData::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'date' => $a['do_date'],
                         'tensu_code' => @$a['tensu_code'],
@@ -228,6 +237,7 @@ class Dpc extends Model
 
                 foreach($userData['used_h_files'] as $a) {
                     ResultUsedHFileCData::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'payload_check' => $a['payload_check'],
                         'target_days' => $a['target_days'],
@@ -255,6 +265,7 @@ class Dpc extends Model
 
                 foreach($userData['not_used_h_files'] as $a) {
                     ResultUnusedHFileCData::create([
+                        'user_id' => $userId,
                         'result_id' => $result->id,
                         'payload_check' => $a['payload_check'],
                         'target_days' => $a['target_days'],

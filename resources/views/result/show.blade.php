@@ -45,7 +45,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ $result->identification_id }}</td>
+              <td class="decryption_identification_id" data-iid="{{ $result->identification_id }}"><img src="{{ asset('img/icon_loading-m.gif') }}" alt="{{ $result->identification_id }}"></td>
               <td>{{ $inWardDay->format('Y年m月d日') }}</td>
               <td>{{ count($resultDays) }}日</td>
             </tr>
@@ -101,5 +101,4 @@ $resultDay = $data['c'];
         </table>
       </div>
       <!-- / .scroll_div -->
-
 @endsection

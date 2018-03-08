@@ -17,7 +17,7 @@ class ResultUnusedHFileCData extends Model
     protected $table = 'result_unused_h_file_c_data';
 
     protected $fillable = [
-        'result_id', 'payload_check', 'target_days', 'date', 'ward_code', 'ward_name', 'payload1', 'payload2', 'payload3', 'payload4', 'payload5', 'payload6', 'payload7', 'remark'
+        'user_id', 'result_id', 'payload_check', 'target_days', 'date', 'ward_code', 'ward_name', 'payload1', 'payload2', 'payload3', 'payload4', 'payload5', 'payload6', 'payload7', 'remark'
     ];
 
     public function result()

@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class Result extends Model
 {
     protected $fillable = [
-        'identification_id', 'target_days', 'unchecked_days', 'is_obstetrics', 'is_child', 'remark'
+        'user_id', 'identification_id', 'target_days', 'unchecked_days', 'is_obstetrics', 'is_child', 'remark'
     ];
 
     public function resultDays($month, $firstDay, $endDay) {

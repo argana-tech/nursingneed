@@ -18,6 +18,13 @@
   alert('{{$errorMsg}}');
   parent.$('#loading').removeClass('show');
 @else
+  @if($code)
+  if (window.localStorage) {
+    window.localStorage.setItem('{{ $strageKey }}', {{ $code }});
+    //window.localStorage.getItem('test_1_2018-11-11');
+  }
+  @endif
+
   parent.location.href = "/results";
 @endif
 </script>

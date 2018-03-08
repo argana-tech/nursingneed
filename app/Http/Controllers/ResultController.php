@@ -18,12 +18,15 @@ class ResultController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->guard('web')->user();
+
         $search = $request->only([
             'identification_id',
             'select',
         ]);
 
-        $results = Result::orderBy('id', 'asc');
+        $results = $user->results();
+
         if (isset($search['identification_id']) && $search['identification_id'] != ''){
             $results = $results->where('identification_id', '=', $search['identification_id']);
         }
@@ -38,8 +41,9 @@ class ResultController extends Controller
         $results = $results->get();
 
         // 最小、最大月
-        $resultMinDate =ResultTargetDay::getMinDate();
-        $resultMaxDate =ResultTargetDay::getMaxDate();
+        $resultMinDate = $user->resultTargetDays->min('date');
+
+        $resultMaxDate = $user->resultTargetDays->max('date');
 
         if (!$resultMinDate)
             $resultMinDate = Carbon::today()->format('Y-m-d');
@@ -50,7 +54,7 @@ class ResultController extends Controller
         }
 
         // 更新日時
-        $updatedResult = Result::first();
+        $updatedResult = $user->dpc_imported_at;
 
         return view('result.index', compact(
             'results',

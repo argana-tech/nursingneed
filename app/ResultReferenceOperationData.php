@@ -17,7 +17,7 @@ class ResultReferenceOperationData extends Model
     protected $table = 'result_reference_operation_data';
 
     protected $fillable = [
-        'result_id', 'date', 'tensu_code', 'densan_code', 'ef_name', 'start_date', 'end_date', 'ward'
+        'user_id', 'result_id', 'date', 'tensu_code', 'densan_code', 'ef_name', 'start_date', 'end_date', 'ward'
     ];
 
     public function result()

@@ -15,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 use App\Dpc;
 use App\User;
@@ -28,19 +29,21 @@ class DpcImportJob implements ShouldQueue
     private $hFilePath = null;
     private $code = null;
     private $endDate = null;
+    private $importedAt = null;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($userId, $efFilePath, $hFilePath, $code, $endDate)
+    public function __construct($userId, $efFilePath, $hFilePath, $code, $endDate, $importedAt)
     {
         $this->userId = $userId;
         $this->efFilePath = $efFilePath;
         $this->hFilePath = $hFilePath;
         $this->code = $code;
         $this->endDate = $endDate;
+        $this->importedAt = $importedAt;
     }
 
     /**
@@ -69,6 +72,7 @@ class DpcImportJob implements ShouldQueue
         $user = User::findOrFail($this->userId);
         $user->is_dpc_loading = 0;
         $user->dpc_import_status = $status;
+        if ($res) $user->dpc_imported_at = $this->importedAt;
         $user->save();
 
         return true;

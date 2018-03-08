@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" >
-<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}" type="text/css" >
+<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}?180307" type="text/css" >
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" type="text/css" >
 
 <script type="text/javascript" src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
@@ -20,7 +20,6 @@
 <script type="text/javascript" src="{{ asset('js/html5shiv.js') }}"></script>
 <![endif]-->
 <script type="text/javascript" src="{{ asset('js/footerFixed.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/script.js') }}?1801"></script>
 
 <script type="text/javascript">
 $(function(){
@@ -143,6 +142,12 @@ $(function(){
 <script src="{{ asset('js/' . $js . '.js') }}"></script>
 @endforeach
 @endif
+
+<script>
+  var localStrageKey = '{{ Auth::guard('web')->check()? Auth::guard('web')->user()->strageKey() : '' }}';
+</script>
+
+<script type="text/javascript" src="{{ asset('js/script.js') }}?180307"></script>
 
 </body>
 </html>

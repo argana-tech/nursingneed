@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class ResultInIntensiveWardDay extends Model
 {
     protected $fillable = [
-        'result_id', 'date', 'name'
+        'user_id', 'result_id', 'date', 'name'
     ];
 
     public function result()

@@ -31,6 +31,7 @@ class ImportDpc extends Command
     private $hFilePath = null;
     private $code = null;
     private $endDate = null;
+    private $importedAt = null;
 
     public function __construct()
     {
@@ -41,6 +42,7 @@ class ImportDpc extends Command
         $this->hFilePath = '/vagrant/storage/uploads/dpc/h_file.tsv';
         $this->code = 1;
         $this->endDate = Carbon::today()->format('Y-m-d');
+        $this->importedAt = Carbon::now()->format('Y-m-d H:i:s');
     }
 
     public function handle()
@@ -58,6 +60,7 @@ class ImportDpc extends Command
         $user = User::findOrFail($this->userId);
         $user->is_dpc_loading = 0;
         $user->dpc_import_status = $status;
+        if ($res) $user->dpc_imported_at = $this->importedAt;
         $user->save();
 
         return true;
