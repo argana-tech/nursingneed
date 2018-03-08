@@ -295,7 +295,7 @@ class Dpc extends Model
             }
 
             if (!$dataCount) {
-                Log::error("データが見つかりませんした");
+                Log::error("データが見つかりませんでした");
                 DB::rollBack();
                 return false;
             }
