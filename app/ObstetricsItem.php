@@ -30,7 +30,7 @@ class ObstetricsItem extends Model
         $file->move($this->storageFileDir(), $this->file);
 
         DB::beginTransaction();
-        $user->cItems()->obstetricsItems();
+        $user->obstetricsItems()->delete();
 
         $fp = fopen($this->storageFilePath(), 'r');
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
