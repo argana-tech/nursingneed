@@ -383,7 +383,9 @@ table.data-table td.color-red.hover div.details {
 	animation-name: show-balloon;
 	z-index: 9000;
 	min-width: 200px;
+	width: 200px;
 	text-align: left;
+	white-space: normal;
 }
 
 table.data-table td.color-red.hover:hover {

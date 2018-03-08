@@ -18,7 +18,8 @@ class CItemController extends Controller
 {
     public function index()
     {
-        $items = CItem::All();
+        $user = auth()->user();
+        $items = $user->cItems;
 
         return view('master.c_item.index', compact(
             'items'
@@ -27,7 +28,8 @@ class CItemController extends Controller
 
     public function edit($id)
     {
-        $item = CItem::findOrFail($id);
+        $user = auth()->user();
+        $item = CItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         return view('master.c_item.edit', compact(
             'item'
@@ -36,7 +38,8 @@ class CItemController extends Controller
 
     public function update(CItemRequest\UpdateRequest $request, $id)
     {
-        $item = CItem::findOrFail($id);
+        $user = auth()->user();
+        $item = CItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         $itemData = $request->only([
             'days',

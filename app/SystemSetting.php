@@ -17,6 +17,6 @@ class SystemSetting extends Model
     public static $id = 1;
 
     protected $fillable = [
-        'intensive_ward', 'obstetrics_ward', 'child_operation_name',
+        'user_id', 'intensive_ward', 'obstetrics_ward', 'child_operation_name',
     ];
 }

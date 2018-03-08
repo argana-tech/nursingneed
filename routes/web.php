@@ -21,6 +21,17 @@ Route::group(['middleware' => ['guest:web']], function () {
         'as' => 'auth.signin',
         'uses' => 'AuthController@signin',
     ]);
+
+    // 会員登録
+    Route::get('user/create', [
+        'as' => 'user.create',
+        'uses' => 'UserController@create',
+    ]);
+
+    Route::post('user', [
+        'as' => 'user.store',
+        'uses' => 'UserController@store',
+    ]);
 });
 
 Route::group(['middleware' => ['auth:web']], function () {

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class ObstetricsItem extends Model
 {
     protected $fillable = [
-        'name', 'code', 'kcode', 'remark',
+        'user_id', 'name', 'code', 'kcode', 'remark',
     ];
 
     protected $hidden = [
@@ -25,15 +25,17 @@ class ObstetricsItem extends Model
 
     public function insertTsvdata($file)
     {
+        $user = auth()->user();
         $this->file = uniqid();
         $file->move($this->storageFileDir(), $this->file);
 
         DB::beginTransaction();
-        self::getQuery()->delete();
+        $user->cItems()->obstetricsItems();
 
         $fp = fopen($this->storageFilePath(), 'r');
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
+                'user_id' => $user->id,
                 'name' => isset($row[0])? trim_space($row[0]) : '',
                 'code' => isset($row[1])? trim_space($row[1]) : '',
                 'kcode' => isset($row[2])? trim_space($row[2]) : '',
@@ -74,7 +76,8 @@ class ObstetricsItem extends Model
             "\t"
         );*/
 
-        $items = self::All();
+        $user = auth()->user();
+        $items = $user->obstetricsItems;
         if ($items->count() > 0) {
             foreach ($items as $item) {
                 $row = [

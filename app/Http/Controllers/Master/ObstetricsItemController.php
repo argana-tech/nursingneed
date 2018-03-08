@@ -18,7 +18,8 @@ class ObstetricsItemController extends Controller
 {
     public function index()
     {
-        $items = ObstetricsItem::All();
+        $user = auth()->user();
+        $items = $user->obstetricsItems;
 
         return view('master.obstetrics_item.index', compact(
             'items'
@@ -27,7 +28,8 @@ class ObstetricsItemController extends Controller
 
     public function edit($id)
     {
-        $item = ObstetricsItem::findOrFail($id);
+        $user = auth()->user();
+        $item = ObstetricsItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         return view('master.obstetrics_item.edit', compact(
             'item'
@@ -36,7 +38,8 @@ class ObstetricsItemController extends Controller
 
     public function update(ObstetricsItemRequest\UpdateRequest $request, $id)
     {
-        $item = ObstetricsItem::findOrFail($id);
+        $user = auth()->user();
+        $item = ObstetricsItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         $itemData = $request->only([
             'name',

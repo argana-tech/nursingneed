@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class CItem extends Model
 {
     protected $fillable = [
-        'days', 'name', 'code', 'remark',
+        'user_id', 'days', 'name', 'code', 'remark',
     ];
 
     protected $hidden = [
@@ -25,15 +25,17 @@ class CItem extends Model
 
     public function insertTsvdata($file)
     {
+        $user = auth()->user();
         $this->file = uniqid();
         $file->move($this->storageFileDir(), $this->file);
 
         DB::beginTransaction();
-        self::getQuery()->delete();
+        $user->cItems()->delete();
 
         $fp = fopen($this->storageFilePath(), 'r');
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
+                'user_id' => $user->id,
                 'days' => isset($row[0])? trim_space($row[0]) : '',
                 'name' => isset($row[1])? trim_space($row[1]) : '',
                 'code' => isset($row[2])? trim_space($row[2]) : '',
@@ -74,7 +76,8 @@ class CItem extends Model
             "\t"
         );*/
 
-        $items = self::All();
+        $user = auth()->user();
+        $items = $user->cItems;
         if ($items->count() > 0) {
             foreach ($items as $item) {
                 $row = [

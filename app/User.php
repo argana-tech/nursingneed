@@ -15,6 +15,10 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+use App\AItem;
+use App\CItem;
+use App\ObstetricsItem;
+
 class User extends Authenticatable
 {
     use SoftDeletes;
@@ -30,6 +34,83 @@ class User extends Authenticatable
         'is_dpc_loading', 'dpc_import_status',
     ];
 
+    public function firstImport()
+    {
+        DB::beginTransaction();
+
+        //a items
+        $this->aItems()->delete();
+        $fp = fopen($this->storageFilePath('a_master.txt'), 'r');
+        while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
+            $data = [
+                'user_id' => $this->id,
+                'name' => isset($row[0])? trim_space($row[0]) : '',
+                'code' => isset($row[1])? trim_space($row[1]) : '',
+                'remark' => isset($row[2])? trim_space($row[2]) : '',
+            ];
+
+            if (
+                empty($data['name'])
+                || empty($data['code']) || !is_numeric($data['code'])
+            ) continue;
+
+            if (!AItem::create($data)) {
+                //DB::rollBack();
+            }
+        }
+        fclose($fp);
+
+        //c items
+        $this->cItems()->delete();
+        $fp = fopen($this->storageFilePath('c_master.txt'), 'r');
+        while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
+            $data = [
+                'user_id' => $this->id,
+                'days' => isset($row[0])? trim_space($row[0]) : '',
+                'name' => isset($row[1])? trim_space($row[1]) : '',
+                'code' => isset($row[2])? trim_space($row[2]) : '',
+                'remark' => isset($row[3])? trim_space($row[3]) : '',
+            ];
+
+            if (
+                empty($data['days']) || !is_numeric($data['days'])
+                || empty($data['name'])
+                || empty($data['code']) || !is_numeric($data['code'])
+            ) continue;
+
+            if (!CItem::create($data)) {
+                //DB::rollBack();
+            }
+        }
+        fclose($fp);
+
+        //obstetrics items
+        $this->obstetricsItems()->delete();
+        $fp = fopen($this->storageFilePath('obstetrics_master.txt'), 'r');
+        while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
+            $data = [
+                'user_id' => $this->id,
+                'name' => isset($row[0])? trim_space($row[0]) : '',
+                'code' => isset($row[1])? trim_space($row[1]) : '',
+                'kcode' => isset($row[2])? trim_space($row[2]) : '',
+                'remark' => isset($row[3])? trim_space($row[3]) : '',
+            ];
+
+            if (
+                empty($data['name'])
+                || empty($data['code']) || !is_numeric($data['code'])
+                || empty($data['kcode'])
+            ) continue;
+
+            if (!ObstetricsItem::create($data)) {
+                //DB::rollBack();
+            }
+        }
+        fclose($fp);
+
+        DB::commit();
+    }
+
     public function isDpcLoading()
     {
         return $this->is_dpc_loading;
@@ -42,6 +123,25 @@ class User extends Authenticatable
             $this->id,
             $this->dpc_imported_at ? Carbon::parse($this->dpc_imported_at)->format('YmdHis') : ""
         );
+    }
+
+    public function systemSetting() {
+        return $this->hasOne('App\SystemSetting');
+    }
+
+    public function aItems() {
+        return $this->hasMany('App\AItem')
+            ->orderBy('id', 'asc');
+    }
+
+    public function cItems() {
+        return $this->hasMany('App\CItem')
+            ->orderBy('id', 'asc');
+    }
+
+    public function obstetricsItems() {
+        return $this->hasMany('App\ObstetricsItem')
+            ->orderBy('id', 'asc');
     }
 
     public function results() {
@@ -71,6 +171,16 @@ class User extends Authenticatable
 
     public function resultUnusedHFileCData() {
         return $this->hasMany('App\ResultUnusedHFileCData');
+    }
+
+    private function storageFileDir()
+    {
+        return storage_path(config('my.master.default_file_path'));
+    }
+
+    private function storageFilePath($filename)
+    {
+        return $this->storageFileDir() . '/' . $filename;
     }
 
 }

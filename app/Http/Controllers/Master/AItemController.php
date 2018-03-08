@@ -18,7 +18,8 @@ class AItemController extends Controller
 {
     public function index()
     {
-        $items = AItem::All();
+        $user = auth()->user();
+        $items = $user->aItems;
 
         return view('master.a_item.index', compact(
             'items'
@@ -27,7 +28,8 @@ class AItemController extends Controller
 
     public function edit($id)
     {
-        $item = AItem::findOrFail($id);
+        $user = auth()->user();
+        $item = AItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         return view('master.a_item.edit', compact(
             'item'
@@ -36,7 +38,8 @@ class AItemController extends Controller
 
     public function update(AItemRequest\UpdateRequest $request, $id)
     {
-        $item = AItem::findOrFail($id);
+        $user = auth()->user();
+        $item = AItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         $itemData = $request->only([
             'name',

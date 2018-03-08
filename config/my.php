@@ -2,6 +2,10 @@
 
 return [
     'master' => [
+        'default_file_path' => env(
+            'MY_MASTER_DEFAULT_FILE_PATH',
+            'default/master'
+        ),
         'upload_file_path' => env(
             'MY_MASTER_UPLOAD_FILE_PATH',
             'uploads/master'

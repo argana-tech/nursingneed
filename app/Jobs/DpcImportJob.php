@@ -67,6 +67,10 @@ class DpcImportJob implements ShouldQueue
         );
         Log::error('DpcImportJob end');
 
+        // ファイル削除
+        @unlink($this->efFilePath);
+        @unlink($this->hFilePath);
+
         // 処理中フラグオフ
         $status = ($res)? User::$dpc_status_successfully : User::$dpc_status_failed;
         $user = User::findOrFail($this->userId);

@@ -45,7 +45,8 @@ class Dpc extends Model
      */
     public function efUpload($file)
     {
-        return $this->upload($file, config('my.dpc.ef_filename'));
+        $user = auth()->user();
+        return $this->upload($file, $user->id . "_" . config('my.dpc.ef_filename'));
     }
 
     /**
@@ -57,7 +58,8 @@ class Dpc extends Model
      */
     public function hUpload($file)
     {
-        return $this->upload($file, config('my.dpc.h_filename'));
+        $user = auth()->user();
+        return $this->upload($file, $user->id . "_" . config('my.dpc.h_filename'));
     }
 
     /**
@@ -90,7 +92,7 @@ class Dpc extends Model
     public static function import($userId, $efFilePath, $hFilePath, $code, $endDate)
     {
         try {
-            if (! $results = self::getResultData($efFilePath, $hFilePath, $code, $endDate)) {
+            if (! $results = self::getResultData($userId, $efFilePath, $hFilePath, $code, $endDate)) {
                 return false;
             }
         } catch(\Exception $e) {
@@ -324,28 +326,30 @@ class Dpc extends Model
      *
      * @return bool
      */
-    private static function getResultData($efFilePath, $hFilePath, $code, $endDate)
+    private static function getResultData($userId, $efFilePath, $hFilePath, $code, $endDate)
     {
         $maxDate = (empty($endDate))? Carbon::today() : Carbon::parse($endDate);
 
+        $user = User::findOrFail($userId);
+
         // get master
         $obstetricsMaster = [];
-        foreach(ObstetricsItem::All() as $obstetricsItem) {
+        foreach($user->obstetricsItems as $obstetricsItem) {
             $obstetricsMaster[$obstetricsItem->code] = $obstetricsItem;
         }
 
         $aMaster = [];
-        foreach (AItem::All() as $aItem) {
+        foreach ($user->aItems as $aItem) {
             $aMaster[$aItem->code] = $aItem;
         }
 
         $cMaster = [];
-        foreach(CItem::All() as $cItem) {
+        foreach($user->cItems as $cItem) {
             $cMaster[$cItem->code] = $cItem;
         }
 
         // get system setting
-        $system = SystemSetting::firstOrNew(['id' => SystemSetting::$id]);
+        $system = SystemSetting::firstOrNew(['user_id' => $user->id]);
 
         $settingChildNames = ($system->child_operation_name)? explode("\n", $system->child_operation_name) : [];
         $settingIntensiveWards = ($system->intensive_ward)? explode("\n", $system->intensive_ward) : [];

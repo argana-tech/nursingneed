@@ -16,7 +16,8 @@ class SystemController extends Controller
 {
     public function index()
     {
-        $system = SystemSetting::firstOrNew(['id' => SystemSetting::$id]);
+        $user = auth()->user();
+        $system = SystemSetting::firstOrNew(['user_id' => $user->id]);
 
         return view('system.index', compact(
             'system'
@@ -25,7 +26,8 @@ class SystemController extends Controller
 
     public function edit()
     {
-        $system = SystemSetting::firstOrNew(['id' => SystemSetting::$id]);
+        $user = auth()->user();
+        $system = SystemSetting::firstOrNew(['user_id' => $user->id]);
 
         return view('system.edit', compact(
             'system'
@@ -34,7 +36,8 @@ class SystemController extends Controller
 
     public function update(SystemRequest\UpdateRequest $request)
     {
-        $system = SystemSetting::firstOrCreate(['id' => SystemSetting::$id]);
+        $user = auth()->user();
+        $system = SystemSetting::firstOrCreate(['user_id' => $user->id]);
 
         $systemData = $request->only([
             'intensive_ward',
