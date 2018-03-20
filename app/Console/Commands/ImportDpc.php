@@ -38,8 +38,8 @@ class ImportDpc extends Command
         parent::__construct();
 
         $this->userId = 1;
-        $this->efFilePath = '/vagrant/storage/uploads/dpc/ef_file.tsv';
-        $this->hFilePath = '/vagrant/storage/uploads/dpc/h_file.tsv';
+        $this->efFilePath = storage_path('uploads/dpc/ef_file.tsv');
+        $this->hFilePath = storage_path('uploads/dpc/h_file.tsv');
         $this->code = 1;
         $this->endDate = Carbon::today()->format('Y-m-d');
         $this->importedAt = Carbon::now()->format('Y-m-d H:i:s');

@@ -81,7 +81,7 @@ $(function(){
         if (data['is_dpc_loading']) {
           setTimeout(function(){
             checkImportDpcStatus()
-          },1000);
+          },5000);
 
         } else {
           $('.whileimport').remove();

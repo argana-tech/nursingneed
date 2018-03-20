@@ -56,7 +56,7 @@ class DpcImportJob implements ShouldQueue
         // todo memo: php artisan queue:work で確認
         // 常にworkerを起動 https://readouble.com/laravel/5.3/ja/queues.html#supervisor-configuration
 
-        Log::error('DpcImportJob start');
+        Log::info('DpcImportJob start. user:' . $this->userId);
 
         $res = Dpc::import(
             $this->userId,
@@ -65,7 +65,7 @@ class DpcImportJob implements ShouldQueue
             $this->code,
             $this->endDate
         );
-        Log::error('DpcImportJob end');
+        Log::info('DpcImportJob end. user:' . $this->userId);
 
         // ファイル削除
         @unlink($this->efFilePath);

@@ -73,7 +73,7 @@ class DpcController extends Controller
         $user->dpc_imported_at = Carbon::now()->format('Y-m-d H:i:s');
 
         // 非同期処理
-        Log::error('dispatch DpcImportJob start');
+        Log::info('dispatch DpcImportJob start');
         dispatch(new DpcImportJob(
             $user->id,
             $efFile,
@@ -82,7 +82,7 @@ class DpcController extends Controller
             $request->input('end_date'),
             $user->dpc_imported_at
         ));
-        Log::error('dispatch DpcImportJob end');
+        Log::info('dispatch DpcImportJob end');
 
         $request->session()->flash('info', '取込を開始しました。');
 
