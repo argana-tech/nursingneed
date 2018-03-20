@@ -122,14 +122,23 @@ class Dpc extends Model
 
             foreach($results as $sikibetuId => $userData) {
                 // C項目・A項目どちらにも該当しない場合はスキップ
-                if ( ! count($userData['syujutsu']) && ! count($userData['syochi'])) {
+                /*if ( ! count($userData['syujutsu']) && ! count($userData['syochi'])) {
                     continue;
-                }
+                }*/
 
                 $notCheckedDays = 0;
-                foreach($userData['c_date_check'] as $value) {
-                    if ($value['status'] == 'not checked') {
-                        $notCheckedDays += 1;
+                if (isset($userData['a_date_check'])) {
+                    foreach($userData['a_date_check'] as $value) {
+                        if ($value['status'] == 'not checked' || $value['status'] == 'h_only') {
+                            $notCheckedDays += 1;
+                        }
+                    }
+                }
+                if (isset($userData['c_date_check'])) {
+                    foreach($userData['c_date_check'] as $value) {
+                        if ($value['status'] == 'not checked' || $value['status'] == 'h_only') {
+                            $notCheckedDays += 1;
+                        }
                     }
                 }
                 $userData['not_checked_days'] = $notCheckedDays;
@@ -163,38 +172,42 @@ class Dpc extends Model
                 ]);
 
                 // a items
-                foreach($userData['a_date_check'] as $k => $v) {
-                    ResultTargetDay::create([
-                        'user_id' => $userId,
-                        'result_id' => $result->id,
-                        'date' => $k,
-                        'c_master_days' => null,
-                        'status' => @$v['status'],
-                        'remark' => @$v['remark'],
-                        'ef_ward' => @$v['ef_byoutou'],
-                        'ef_name' => @$v['ef_name'],
-                        'h_ward' => @$v['h_byoutou'],
-                        'content_type' => 'A',
-                        'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
-                    ]);
+                if (isset($userData['a_date_check'])) {
+                    foreach($userData['a_date_check'] as $k => $v) {
+                        ResultTargetDay::create([
+                            'user_id' => $userId,
+                            'result_id' => $result->id,
+                            'date' => $k,
+                            'c_master_days' => null,
+                            'status' => @$v['status'],
+                            'remark' => @$v['remark'],
+                            'ef_ward' => @$v['ef_byoutou'],
+                            'ef_name' => @$v['ef_name'],
+                            'h_ward' => @$v['h_byoutou'],
+                            'content_type' => 'A',
+                            'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
+                        ]);
+                    }
                 }
 
                 // c items
-                foreach($userData['c_date_check'] as $k => $v) {
-                    ResultTargetDay::create([
-                        'user_id' => $userId,
-                        'result_id' => $result->id,
-                        'date' => $k,
-                        'c_master_days' => $v['master_days'],
-                        'count_days' => $v['count_days'],
-                        'status' => @$v['status'],
-                        'remark' => @$v['remark'],
-                        'ef_ward' => @$v['ef_byoutou'],
-                        'ef_name' => @$v['ef_name'],
-                        'h_ward' => @$v['h_byoutou'],
-                        'content_type' => 'C',
-                        'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
-                    ]);
+                if (isset($userData['c_date_check'])) {
+                    foreach($userData['c_date_check'] as $k => $v) {
+                        ResultTargetDay::create([
+                            'user_id' => $userId,
+                            'result_id' => $result->id,
+                            'date' => $k,
+                            'c_master_days' => isset($v['master_days'])? $v['master_days'] : 0,
+                            'count_days' => isset($v['count_days'])? $v['count_days'] : 0,
+                            'status' => @$v['status'],
+                            'remark' => @$v['remark'],
+                            'ef_ward' => @$v['ef_byoutou'],
+                            'ef_name' => @$v['ef_name'],
+                            'h_ward' => @$v['h_byoutou'],
+                            'content_type' => 'C',
+                            'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
+                        ]);
+                    }
                 }
 
                 foreach($userData['syutyu_days'] as $k => $v) {
@@ -375,10 +388,10 @@ class Dpc extends Model
                 mb_convert_variables('UTF-8', $encode, $row);
 
             $efWorkFile = [
-                'byouin_code' => @$row[0],
-                'sikibetu_id' => @$row[1],
-                'out_date' => @$row[2],
-                'in_date' => @$row[3],
+                'byouin_code' => self::trimId(@$row[0]),
+                'sikibetu_id' => self::trimId(@$row[1]),
+                'out_date' => self::trimId(@$row[2]),
+                'in_date' => self::trimId(@$row[3]),
                 'data_type' => @$row[4],
                 'order_num' => @$row[5],
                 'meisai_bangou' => @$row[6],
@@ -747,7 +760,7 @@ class Dpc extends Model
                 'target_days' => null,
                 'byouin_name' => @$row[0],
                 'byoutou_code' => @$row[1],
-                'sikibetu_id' => @$row[2],
+                'sikibetu_id' => self::trimId(@$row[2]),
                 'out_date' => @$row[3],
                 'in_date' => @$row[4],
                 'do_date' => @$row[5],
@@ -794,7 +807,21 @@ class Dpc extends Model
 
                 $userData = @$efFile[$hFile['sikibetu_id']];
                 if (!$userData) {
-                    continue;
+                    // efファイルに存在しない場合
+                    $efFile[$hFile['sikibetu_id']] = [
+                        'target_days' => 0,
+                        'sanka' => false,
+                        'kodomo' => false,
+                        'syutyu_days' => [],
+                        'syujutsu' => [],
+                        'syochi' => [],
+                        'sankou' => [],
+                        'used_h_files' => [],
+                        'not_used_h_files' => [],
+                        'c_date_check' => [],
+                        'a_date_check' => []
+                    ];
+                    $userData = $efFile[$hFile['sikibetu_id']];
                 }
 
                 $efFile[$hFile['sikibetu_id']]['content_type'] = 'A';
@@ -830,6 +857,24 @@ class Dpc extends Model
                     $efFile[$hFile['sikibetu_id']]['used_h_files'][] = $hFile;
 
                 } else {
+                    // efファイルに存在しない場合
+                    if (!isset($userData['a_date_check'][$doDate])) {
+                        $userData['a_date_check'][$doDate] = [
+                            'status' => 'h_only',
+                            'h_byoutou' => $hFile['byoutou_code'],
+                            'remark' => implode(' ', [
+                                $hFile['remark1'],
+                                $hFile['remark2'],
+                                $hFile['remark3'],
+                                $hFile['remark4'],
+                                $hFile['remark5'],
+                                $hFile['remark6'],
+                                $hFile['remark7'],
+                            ])
+                        ];
+                        $efFile[$hFile['sikibetu_id']] = $userData;
+                    }
+
                     $efFile[$hFile['sikibetu_id']]['not_used_h_files'][] = $hFile;
                 }
             }
@@ -871,7 +916,21 @@ class Dpc extends Model
 
                 $userData = @$efFile[$hFile['sikibetu_id']];
                 if (!$userData) {
-                    continue;
+                    // efファイルに存在しない場合
+                    $efFile[$hFile['sikibetu_id']] = [
+                        'target_days' => 0,
+                        'sanka' => false,
+                        'kodomo' => false,
+                        'syutyu_days' => [],
+                        'syujutsu' => [],
+                        'syochi' => [],
+                        'sankou' => [],
+                        'used_h_files' => [],
+                        'not_used_h_files' => [],
+                        'a_date_check' => [],
+                        'c_date_check' => []
+                    ];
+                    $userData = $efFile[$hFile['sikibetu_id']];
                 }
 
                 $efFile[$hFile['sikibetu_id']]['content_type'] = 'C';
@@ -907,6 +966,24 @@ class Dpc extends Model
                     $efFile[$hFile['sikibetu_id']]['used_h_files'][] = $hFile;
 
                 } else {
+                    // efファイルに存在しない場合
+                    if (!isset($userData['c_date_check'][$doDate])) {
+                        $userData['c_date_check'][$doDate] = [
+                            'status' => 'h_only',
+                            'h_byoutou' => $hFile['byoutou_code'],
+                            'remark' => implode(' ', [
+                                $hFile['remark1'],
+                                $hFile['remark2'],
+                                $hFile['remark3'],
+                                $hFile['remark4'],
+                                $hFile['remark5'],
+                                $hFile['remark6'],
+                                $hFile['remark7'],
+                            ])
+                        ];
+                        $efFile[$hFile['sikibetu_id']] = $userData;
+                    }
+
                     $efFile[$hFile['sikibetu_id']]['not_used_h_files'][] = $hFile;
                 }
             }
@@ -917,8 +994,8 @@ class Dpc extends Model
 
     private static function encryptionByCodo($id, $code)
     {
-        $id = str_replace(array(' ', '　'), '', $id);
-        $code = str_replace(array(' ', '　'), '', $code);
+        $id = self::trimId($id);
+        $code = self::trimId($code);
 
         if (empty($id) || empty($code)) {
             return $id;
@@ -933,6 +1010,11 @@ class Dpc extends Model
         }
 
         return $id + $code;
+    }
+
+    private static function trimId($id)
+    {
+        return str_replace(array(' ', '　'), '', $id);
     }
 
     private function storageFileDir()

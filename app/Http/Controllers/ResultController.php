@@ -38,7 +38,7 @@ class ResultController extends Controller
             $results = $results->where('is_child', '=', 0)->where('is_obstetrics', '=', 0);
         }
 
-        $results = $results->get();
+        $results = $results->paginate(50);
 
         // 最小、最大月
         $resultMinDate = $user->resultTargetDays->min('date');

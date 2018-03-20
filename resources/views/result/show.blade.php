@@ -74,7 +74,9 @@ $resultDay = $data['a'];
 @if ($resultDay && $resultDay->status == 'checked')
 <td class="color-white"> @if($resultDay->is_syutyu) 集中 @else 一般@endif </td>
 @elseif ($resultDay && $resultDay->status == 'not checked')
-<td class="color-red"> @if($resultDay->is_syutyu) 集中 @else 一般@endif :差異あり </td>
+<td class="color-red"> @if($resultDay->is_syutyu) 集中 @else 一般@endif :EFファイルのみ </td>
+@elseif ($resultDay && $resultDay->status == 'h_only')
+<td class="color-yellow"> @if($resultDay->is_syutyu) 集中 @else 一般@endif :Hファイルのみ </td>
 @else
 <td class="color-gray"> </td>
 @endif
@@ -91,7 +93,9 @@ $resultDay = $data['c'];
 @elseif ($resultDay && $resultDay->status == 'checked')
 <td class="ippan color-white"> 一般 </td>
 @elseif ($resultDay && $resultDay->status == 'not checked')
-<td class="ippan color-red"> 一般:差異あり </td>
+<td class="ippan color-red"> 一般 :EFファイルのみ </td>
+@elseif ($resultDay && $resultDay->status == 'h_only')
+<td class="ippan color-yellow"> 一般 :Hファイルのみ </td>
 @else
 <td class="color-gray"> </td>
 @endif

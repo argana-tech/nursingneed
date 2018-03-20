@@ -27,7 +27,7 @@ return [
         'import' => [
             'encode' => env(
                 'MY_DPC_IMPORT_ENCODE',
-                'Shift-jis'
+                'SJIS-win'
                 //'UTF-8'
             ),
             'delimiter' => env(

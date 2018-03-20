@@ -265,6 +265,7 @@ div.description-box>div:before {
 
 div.description-box>div.white:before {	background: #fff;	border: 1px solid #ccc;}
 div.description-box>div.red:before {	background: #e61c58;	border: 1px solid #ccc;}
+div.description-box>div.yellow:before {	background: #e6b41c;	border: 1px solid #ccc;}
 div.description-box>div.purple:before {	background: #ccadf8;	border: 1px solid #ccc;}
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ .data-table */
@@ -339,7 +340,7 @@ table.data-table td.color-gray { background: #f0f0f0; border: 1px solid #ddd; ba
 table.data-table td.color-white { background: #fff; border: 1px solid #ddd; background-clip: padding-box;}
 table.data-table td.color-lightblue { background: #d9edf7; border: 1px solid #ddd; background-clip: padding-box;}
 table.data-table td.color-blue { background: #abc0f5; border: 1px solid #ddd; background-clip: padding-box;}
-table.data-table td.color-yellow { background: #fdf37f; border: 1px solid #ddd; background-clip: padding-box;}
+table.data-table td.color-yellow { background: #e6b41c; border: 1px solid #ddd; background-clip: padding-box;}
 table.data-table td.color-pink { background: #e68aa5; border: 1px solid #ddd; background-clip: padding-box;}
 table.data-table td.color-red { background: #e61c58; border: 1px solid #ddd; background-clip: padding-box;}
 table.data-table td.color-purple { background: #ccadf8; border: 1px solid #ddd; background-clip: padding-box;}
@@ -359,11 +360,13 @@ table.data-table td.hcu:after { position: absolute; top: 0.4em; left:0; content:
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ hover */
 
-table.data-table td.color-red.hover {
+table.data-table td.color-red.hover,
+table.data-table td.color-yellow.hover {
 	position: relative;
 }
 
-table.data-table td.color-red.hover div.details {
+table.data-table td.color-red.hover div.details,
+table.data-table td.color-yellow.hover div.details {
 	position: absolute;
 	top: -2em;
 	right: 2em;
@@ -393,18 +396,26 @@ table.data-table td.color-red.hover:hover {
     background: #e68ba6; border: 1px solid #e61c58; background-clip: padding-box;
 }
 
-table.data-table td.color-red.hover:hover div.details {
+table.data-table td.color-yellow.hover:hover {
+	cursor: pointer;
+    background: #fb7a23; border: 1px solid #e6b41c; background-clip: padding-box;
+}
+
+table.data-table td.color-red.hover:hover div.details,
+table.data-table td.color-yellow.hover:hover div.details {
 	display: block;
 	opacity: 1;
 	top: 0;
 }
 
-table.data-table td.color-red.hover:hover div.details div.ope {
+table.data-table td.color-red.hover:hover div.details div.ope,
+table.data-table td.color-yellow.hover:hover div.details div.ope {
 	margin-bottom: 0.5em;
 	font-weight: bold;
 }
 
-table.data-table td.color-red.hover:hover div.details div.count {
+table.data-table td.color-red.hover:hover div.details div.count,
+table.data-table td.color-yellow.hover:hover div.details div.count {
 }
 
 @keyframes show-balloon {
@@ -495,7 +506,7 @@ table.detail-table td.color-gray { background: #f0f0f0; border: 1px solid #ddd; 
 table.detail-table td.color-white { background: #fff; border: 1px solid #ddd; background-clip: padding-box;}
 table.detail-table td.color-lightblue { background: #d9edf7; border: 1px solid #ddd; background-clip: padding-box;}
 table.detail-table td.color-blue { background: #abc0f5; border: 1px solid #ddd; background-clip: padding-box;}
-table.detail-table td.color-yellow { background: #fdf37f; border: 1px solid #ddd; background-clip: padding-box;}
+table.detail-table td.color-yellow { background: #e6b41c; border: 1px solid #ddd; background-clip: padding-box;}
 table.detail-table td.color-pink { background: #e68aa5; border: 1px solid #ddd; background-clip: padding-box;}
 table.detail-table td.color-red { background: #e61c58; border: 1px solid #ddd; background-clip: padding-box;}
 table.detail-table td.color-purple { background: #ccadf8; border: 1px solid #ddd; background-clip: padding-box;}
@@ -767,4 +778,15 @@ div.whileimport span.loader img {
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);	
 	transform: translate(-50%, -50%);
+}
+
+
+#loading_box_image {
+    width:1185px;
+    text-align:center;
+    display:none;
+}
+
+#loading_box_image img{
+    margin-top:-100px;
 }

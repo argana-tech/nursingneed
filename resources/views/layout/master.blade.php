@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" >
-<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}?180308" type="text/css" >
+<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}?180320" type="text/css" >
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" type="text/css" >
 
 <script type="text/javascript" src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
@@ -132,7 +132,7 @@ $(function(){
 <!-- / .pageTop -->
 <footer id="footer">
   <div class="container">
-    <!-- div class="copyright">Copyright &copy; <a href="http://jp.ebase-solutions.com/" target="_blank">eBase solutions laboratory</a> All Rights Reserved.</div -->
+    <div class="copyright">Copyright &copy; <a href="http://jp.ebase-solutions.com/" target="_blank">eBase solutions laboratory</a> All Rights Reserved.</div>
   </div>
   <!-- / .inner -->
 </footer>
@@ -147,7 +147,7 @@ $(function(){
   var localStrageKey = '{{ Auth::guard('web')->check()? Auth::guard('web')->user()->strageKey() : '' }}';
 </script>
 
-<script type="text/javascript" src="{{ asset('js/script.js') }}?180308"></script>
+<script type="text/javascript" src="{{ asset('js/script.js') }}?180320"></script>
 
 </body>
 </html>

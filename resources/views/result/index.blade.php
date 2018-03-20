@@ -23,7 +23,8 @@
               <div class="col-xs-2">
                 <label>データ識別番号</label>
                 @php $identificationIdOld = $search['identification_id'] ?? ''; @endphp
-                <input value="{{ $identificationIdOld }}" name="identification_id" placeholder="" type="text" class="form-control">
+                <input value="" name="identification_id_work" placeholder="" type="text" class="form-control">
+                <input value="{{ $identificationIdOld }}" name="identification_id" type="hidden">
               </div>
 
               <div class="col-xs-2">
@@ -64,8 +65,10 @@
             <div class="description-box clearfix">
               <div class="white">一致</div>
               <!-- / .white -->
-              <div class="red">チェック漏れ</div>
+              <div class="red">EFファイルのみ</div>
               <!-- / .red -->
+              <div class="yellow">Hファイルのみ</div>
+              <!-- / .yellow -->
               <div class="purple">対象外</div>
               <!-- / .purple -->
             </div>
@@ -105,7 +108,7 @@
 
       <div class="table-type-outer m_u40">
         <table class="deco-tb w100 tc data-table fixed m_u80">
-          <tbody>
+          <tbody class="infinite-scroll-items">
             @foreach($results as $result)
               @php
                 $resultADays = $result->resultADays($month, $firstDay, $endDay);
@@ -141,6 +144,8 @@
                 @else
                   @if ($resultDay->status == 'checked')
                   <td class="color-white"></td>
+                  @elseif ($resultDay->status == 'h_only')
+                  <td class="color-yellow"></td>
                   @elseif ($resultDay->status == 'not checked')
                   <td class="color-red hover">
                     <div class="details">
@@ -164,6 +169,8 @@
                   <td class="color-purple"></td>
                   @elseif ($resultDay->status == 'checked')
                   <td class="color-white"></td>
+                  @elseif ($resultDay->status == 'h_only')
+                  <td class="color-yellow"></td>
                   @elseif ($resultDay->status == 'not checked')
                   <td class="color-red hover">
                     <div class="details">
@@ -180,6 +187,15 @@
             @endforeach
           </tbody>
         </table>
+
+        <span id="loading_box_parent">
+        @if ($results->nextPageUrl())
+        <div id="loading_box" data-next-page-url="{{ $results->nextPageUrl() }}"></div>
+        <div id="loading_box_image"><img src="{{ asset('img/icon_loader_27.gif') }}" alt=""></div>
+        @endif
+        </span>
+
       </div>
       <!-- / .table-type-outer -->
+
 @endsection
