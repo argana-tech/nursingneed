@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class AItem extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'code', 'remark',
+        'user_id', 'payload', 'name', 'code', 'remark',
     ];
 
     protected $hidden = [
@@ -36,13 +36,15 @@ class AItem extends Model
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
                 'user_id' => $user->id,
-                'name' => isset($row[0])? trim_space($row[0]) : '',
-                'code' => isset($row[1])? trim_space($row[1]) : '',
-                'remark' => isset($row[2])? trim_space($row[2]) : '',
+                'payload' => isset($row[0])? trim_space($row[0]) : '',
+                'name' => isset($row[1])? trim_space($row[1]) : '',
+                'code' => isset($row[2])? trim_space($row[2]) : '',
+                'remark' => isset($row[3])? trim_space($row[3]) : '',
             ];
 
             if (
-                empty($data['name'])
+                empty($data['payload']) || !is_numeric($data['payload'])
+                || empty($data['name'])
                 || empty($data['code']) || !is_numeric($data['code'])
             ) continue;
 
@@ -62,7 +64,7 @@ class AItem extends Model
     public static function getCsvdata()
     {
         $columns = [
-            '名称', 'コード', '備考'
+            'ペイロード番号', '名称', 'コード', '備考'
         ];
 
         // import
@@ -79,6 +81,7 @@ class AItem extends Model
         if ($items->count() > 0) {
             foreach ($items as $item) {
                 $row = [
+                    $item->payload,
                     $item->name,
                     $item->code,
                     $item->remark,

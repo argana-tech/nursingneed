@@ -548,6 +548,7 @@ class Dpc extends Model
                     'code' => $efWorkFile['tensuu_master'],
                     'densan_code' => $efWorkFile['densan_code'],
                     'ef_name' => trim_space($efWorkFile['name']),
+                    'master_payload' => $a_master->payload,
                     'master_name' => $a_master->name,
                     'master_days' => $a_master->days,
                     'byoutou' => $efWorkFile['byoutou_code']
@@ -608,6 +609,7 @@ class Dpc extends Model
                     'code' => $efWorkFile['tensuu_master'],
                     'densan_code' => $efWorkFile['densan_code'],
                     'ef_name' => trim_space($efWorkFile['name']),
+                    'master_payload' => $c_master->payload,
                     'master_name' => $c_master->name,
                     'master_days' => $c_master->days,
                     'byoutou' => $efWorkFile['byoutou_code']
@@ -662,6 +664,7 @@ class Dpc extends Model
 
                 if (!empty($userData['syutyu_days'][$targetDate->format('Y-m-d')])) {
                     $userData['a_date_check'][$targetDate->format('Y-m-d')] = [
+                        'master_payload' => $value['master_payload'],
                         'master_days' => 1, // 処置は「1日」
                         //'status' => 'syutyu',
                         'status' => 'not checked', // A項目は集中も対象
@@ -670,6 +673,7 @@ class Dpc extends Model
                     ];
                 } else {
                     $userData['a_date_check'][$targetDate->format('Y-m-d')] = [
+                        'master_payload' => $value['master_payload'],
                         'master_days' => 1, // 処置は「1日」
                         'status' => 'not checked',
                         'ef_byoutou' => $byoutou,
@@ -723,6 +727,7 @@ class Dpc extends Model
 
                     if (!empty($userData['syutyu_days'][$targetDate->format('Y-m-d')])) {
                         $userData['c_date_check'][$targetDate->format('Y-m-d')] = [
+                            'master_payload' => $value['master_payload'],
                             'master_days' => max([$value['master_days'], $currentMasterDays]),
                             'count_days' => $index + 1,
                             'status' => 'syutyu',
@@ -731,6 +736,7 @@ class Dpc extends Model
                         ];
                     } else {
                         $userData['c_date_check'][$targetDate->format('Y-m-d')] = [
+                            'master_payload' => $value['master_payload'],
                             'master_days' => max([$value['master_days'], $currentMasterDays]),
                             'count_days' => $index + 1,
                             'status' => 'not checked',
@@ -774,6 +780,7 @@ class Dpc extends Model
                 'payload5' => @$row[13], # 3日
                 'payload6' => @$row[14], # 2日
                 'payload7' => @$row[15], # 2日
+                'payload8' => @$row[16], # 2日
                 'remark1' => (isset($row[29]))? $row[29] : '', # 備考
                 'remark2' => (isset($row[30]))? $row[30] : '', # 備考
                 'remark3' => (isset($row[31]))? $row[31] : '', # 備考
@@ -793,6 +800,7 @@ class Dpc extends Model
                     && $hFile['payload5'] == '0'
                     && $hFile['payload6'] == '0'
                     && ($hFile['payload7'] == '0' || $hFile['payload7'] == '000')
+                    && ($hFile['payload8'] == '0' || $hFile['payload8'] == '000')
                 ) continue;
 
                 if (!check_is_date($hFile['do_date'])) {
@@ -806,6 +814,7 @@ class Dpc extends Model
                 $hFile['target_days'] = 1;
 
                 $userData = @$efFile[$hFile['sikibetu_id']];
+
                 if (!$userData) {
                     // efファイルに存在しない場合
                     $efFile[$hFile['sikibetu_id']] = [
@@ -824,9 +833,17 @@ class Dpc extends Model
                     $userData = $efFile[$hFile['sikibetu_id']];
                 }
 
+                // check payload
+                $payload = @$userData['a_date_check'][$doDate]['master_payload'];
+                $payload = @$hFile['payload' . $payload];
+
                 $efFile[$hFile['sikibetu_id']]['content_type'] = 'A';
 
-                if (@$userData['a_date_check'][$doDate] && $userData['a_date_check'][$doDate]['status'] == 'not checked') {
+                if (
+                    @$userData['a_date_check'][$doDate]
+                    && $userData['a_date_check'][$doDate]['status'] == 'not checked'
+                    && $payload != '0' && $payload != '000'
+                ) {
                     $userData['a_date_check'][$doDate]['status'] = 'checked';
                     $userData['a_date_check'][$doDate]['h_byoutou'] = $hFile['byoutou_code'];
                     $userData['a_date_check'][$doDate]['remark'] = implode(' ', [
@@ -933,9 +950,18 @@ class Dpc extends Model
                     $userData = $efFile[$hFile['sikibetu_id']];
                 }
 
+
+                // check payload
+                $payload = @$userData['c_date_check'][$doDate]['master_payload'];
+                $payload = @$hFile['payload' . $payload];
+
                 $efFile[$hFile['sikibetu_id']]['content_type'] = 'C';
 
-                if (@$userData['c_date_check'][$doDate] && $userData['c_date_check'][$doDate]['status'] == 'not checked') {
+                if (
+                    @$userData['c_date_check'][$doDate]
+                    && $userData['c_date_check'][$doDate]['status'] == 'not checked'
+                    && $payload != '0' && $payload != '000'
+                 ) {
                     $userData['c_date_check'][$doDate]['status'] = 'checked';
                     $userData['c_date_check'][$doDate]['h_byoutou'] = $hFile['byoutou_code'];
                     $userData['c_date_check'][$doDate]['remark'] = implode(' ', [

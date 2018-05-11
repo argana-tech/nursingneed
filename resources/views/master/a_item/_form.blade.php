@@ -1,4 +1,14 @@
 
+    <div class="form-group{{ $errors->has('payload') ? ' has-error' : '' }}">
+      <label class="control-label col-xs-1" for="input_payload">ペイロード番号 <span class="text-danger">※</span></label>
+      <div class="col-xs-8">
+        <input type="text" name="payload" placeholder="ペイロード番号" id="payload" class="form-control" value="{{Request::old('payload') ?: $item->payload}}" />
+        @if ($errors->has('payload'))
+        <span class="help-block"><strong>{{ $errors->first('payload') }}</strong></span>
+        @endif
+      </div>
+    </div>
+
     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
       <label class="control-label col-xs-1" for="input_name">名称 <span class="text-danger">※</span></label>
       <div class="col-xs-8">

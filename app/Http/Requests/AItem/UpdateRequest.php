@@ -20,6 +20,9 @@ class UpdateRequest extends Request
     public function rules()
     {
         return [
+            'payload' => [
+                'required',
+            ],
             'name' => [
                 'required',
             ],
@@ -34,6 +37,7 @@ class UpdateRequest extends Request
     public function messages()
     {
         return [
+            'payload.required' => 'ペイロード番号を入力してください',
             'name.required' => '名称を入力してください',
             'code.required' => 'コードを入力してください',
         ];

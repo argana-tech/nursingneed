@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class CItem extends Model
 {
     protected $fillable = [
-        'user_id', 'days', 'name', 'code', 'remark',
+        'user_id', 'payload', 'days', 'name', 'code', 'remark',
     ];
 
     protected $hidden = [
@@ -36,14 +36,16 @@ class CItem extends Model
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
                 'user_id' => $user->id,
-                'days' => isset($row[0])? trim_space($row[0]) : '',
-                'name' => isset($row[1])? trim_space($row[1]) : '',
-                'code' => isset($row[2])? trim_space($row[2]) : '',
-                'remark' => isset($row[3])? trim_space($row[3]) : '',
+                'payload' => isset($row[0])? trim_space($row[0]) : '',
+                'days' => isset($row[1])? trim_space($row[1]) : '',
+                'name' => isset($row[2])? trim_space($row[2]) : '',
+                'code' => isset($row[3])? trim_space($row[3]) : '',
+                'remark' => isset($row[4])? trim_space($row[4]) : '',
             ];
 
             if (
-                empty($data['days']) || !is_numeric($data['days'])
+                empty($data['payload']) || !is_numeric($data['payload'])
+                || empty($data['days']) || !is_numeric($data['days'])
                 || empty($data['name'])
                 || empty($data['code']) || !is_numeric($data['code'])
             ) continue;
@@ -64,7 +66,7 @@ class CItem extends Model
     public static function getCsvdata()
     {
         $columns = [
-            '日数', '名称', 'コード', '備考'
+            'ペイロード番号', '日数', '名称', 'コード', '備考'
         ];
 
         // import
@@ -81,6 +83,7 @@ class CItem extends Model
         if ($items->count() > 0) {
             foreach ($items as $item) {
                 $row = [
+                    $item->payload,
                     $item->days,
                     $item->name,
                     $item->code,

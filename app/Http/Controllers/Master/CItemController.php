@@ -42,6 +42,7 @@ class CItemController extends Controller
         $item = CItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         $itemData = $request->only([
+            'payload',
             'days',
             'name',
             'code',

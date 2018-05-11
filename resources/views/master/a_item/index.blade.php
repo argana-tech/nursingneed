@@ -53,12 +53,14 @@
 
 <table class="table table-bordered">
   <colgroup>
+    <col class="col-xs-1">
     <col class="col-xs-2">
     <col class="col-xs-1">
     <col class="col-xs-1">
   </colgroup>
   <thead>
     <tr>
+      <th>ペイロード番号</th>
       <th>名称</th>
       <th>コード</th>
       <th>備考</th>
@@ -67,6 +69,7 @@
   <tbody>
   @foreach($items as $item)
     <tr>
+      <td><a href="{{ route('a_items.edit', ['aitem' => $item->id ]) }}" class="">{{ $item->payload }}</a></td>
       <td><a href="{{ route('a_items.edit', ['aitem' => $item->id ]) }}" class="">{{ $item->name }}</a></td>
       <td><a href="{{ route('a_items.edit', ['aitem' => $item->id ]) }}" class="">{{ $item->code }}</a></td>
       <td><a href="{{ route('a_items.edit', ['aitem' => $item->id ]) }}" class="">{{ $item->remark }}</a></td>

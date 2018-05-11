@@ -20,6 +20,10 @@ class UpdateRequest extends Request
     public function rules()
     {
         return [
+            'payload' => [
+                'required',
+                'integer',
+            ],
             'days' => [
                 'required',
                 'integer',
@@ -38,6 +42,8 @@ class UpdateRequest extends Request
     public function messages()
     {
         return [
+            'payload.required' => 'ペイロード番号を入力してください',
+            'payload.integer' => 'ペイロード番号は数値を入力してください',
             'days.required' => '日数を入力してください',
             'days.integer' => '日数は数値を入力してください',
             'name.required' => '名称を入力してください',

@@ -42,6 +42,7 @@ class AItemController extends Controller
         $item = AItem::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
         $itemData = $request->only([
+            'payload',
             'name',
             'code',
             'remark',

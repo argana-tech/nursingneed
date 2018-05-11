@@ -44,13 +44,15 @@ class User extends Authenticatable
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
                 'user_id' => $this->id,
-                'name' => isset($row[0])? trim_space($row[0]) : '',
-                'code' => isset($row[1])? trim_space($row[1]) : '',
-                'remark' => isset($row[2])? trim_space($row[2]) : '',
+                'payload' => isset($row[0])? trim_space($row[0]) : '',
+                'name' => isset($row[1])? trim_space($row[1]) : '',
+                'code' => isset($row[2])? trim_space($row[2]) : '',
+                'remark' => isset($row[3])? trim_space($row[3]) : '',
             ];
 
             if (
-                empty($data['name'])
+                empty($data['payload']) || !is_numeric($data['payload'])
+                || empty($data['name'])
                 || empty($data['code']) || !is_numeric($data['code'])
             ) continue;
 
@@ -66,14 +68,16 @@ class User extends Authenticatable
         while (($row = fgetcsv($fp, 0, "\t")) !== FALSE) {
             $data = [
                 'user_id' => $this->id,
-                'days' => isset($row[0])? trim_space($row[0]) : '',
-                'name' => isset($row[1])? trim_space($row[1]) : '',
-                'code' => isset($row[2])? trim_space($row[2]) : '',
-                'remark' => isset($row[3])? trim_space($row[3]) : '',
+                'payload' => isset($row[0])? trim_space($row[0]) : '',
+                'days' => isset($row[1])? trim_space($row[1]) : '',
+                'name' => isset($row[2])? trim_space($row[2]) : '',
+                'code' => isset($row[3])? trim_space($row[3]) : '',
+                'remark' => isset($row[4])? trim_space($row[4]) : '',
             ];
 
             if (
-                empty($data['days']) || !is_numeric($data['days'])
+                empty($data['payload']) || !is_numeric($data['payload'])
+                || empty($data['days']) || !is_numeric($data['days'])
                 || empty($data['name'])
                 || empty($data['code']) || !is_numeric($data['code'])
             ) continue;
