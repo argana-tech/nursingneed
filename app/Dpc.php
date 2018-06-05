@@ -181,9 +181,10 @@ class Dpc extends Model
                             'c_master_days' => null,
                             'status' => @$v['status'],
                             'remark' => @$v['remark'],
-                            'ef_ward' => @$v['ef_byoutou'],
+                            'ef_ward' => ltrim_zero(@$v['ef_byoutou']),
                             'ef_name' => @$v['ef_name'],
-                            'h_ward' => @$v['h_byoutou'],
+                            'h_ward' => ltrim_zero(@$v['h_byoutou']),
+                            'h_name' => @$v['h_name'],
                             'content_type' => 'A',
                             'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
                         ]);
@@ -201,9 +202,10 @@ class Dpc extends Model
                             'count_days' => isset($v['count_days'])? $v['count_days'] : 0,
                             'status' => @$v['status'],
                             'remark' => @$v['remark'],
-                            'ef_ward' => @$v['ef_byoutou'],
+                            'ef_ward' => ltrim_zero(@$v['ef_byoutou']),
                             'ef_name' => @$v['ef_name'],
-                            'h_ward' => @$v['h_byoutou'],
+                            'h_name' => @$v['h_name'],
+                            'h_ward' => ltrim_zero(@$v['h_byoutou']),
                             'content_type' => 'C',
                             'is_syutyu' => (count(@$userData['syutyu_days'][$k]))? 1 : 0,
                         ]);
@@ -669,7 +671,8 @@ class Dpc extends Model
                         //'status' => 'syutyu',
                         'status' => 'not checked', // A項目は集中も対象
                         'ef_byoutou' => $byoutou,
-                        'ef_name' => $value['ef_name']
+                        'ef_name' => $value['ef_name'],
+                        'h_name' => ''
                     ];
                 } else {
                     $userData['a_date_check'][$targetDate->format('Y-m-d')] = [
@@ -677,7 +680,8 @@ class Dpc extends Model
                         'master_days' => 1, // 処置は「1日」
                         'status' => 'not checked',
                         'ef_byoutou' => $byoutou,
-                        'ef_name' => $value['ef_name']
+                        'ef_name' => $value['ef_name'],
+                        'h_name' => ''
                     ];
                 }
             }
@@ -732,7 +736,8 @@ class Dpc extends Model
                             'count_days' => $index + 1,
                             'status' => 'syutyu',
                             'ef_byoutou' => $byoutou,
-                            'ef_name' => $value['ef_name']
+                            'ef_name' => $value['ef_name'],
+                            'h_name' => ''
                         ];
                     } else {
                         $userData['c_date_check'][$targetDate->format('Y-m-d')] = [
@@ -741,7 +746,8 @@ class Dpc extends Model
                             'count_days' => $index + 1,
                             'status' => 'not checked',
                             'ef_byoutou' => $byoutou,
-                            'ef_name' => $value['ef_name']
+                            'ef_name' => $value['ef_name'],
+                            'h_name' => ''
                         ];
                     }
                 }
@@ -811,6 +817,34 @@ class Dpc extends Model
 
                 if ($doDate > $maxDate->format('Y-m-d')) continue;	// 最終日以降の日付の場合はスキップ
 
+                $hName = '';
+                $payloadNames = config('my.h_file.payload_names.a');
+                if ($hFile['payload1'] != '0') {
+                    $hName = $payloadNames[1];
+                }
+                if ($hFile['payload2'] != '0') {
+                    $hName = $payloadNames[2];
+                    $hName = '呼吸ケア';
+                }
+                if ($hFile['payload3'] != '0') {
+                    $hName = $payloadNames[3];
+                }
+                if ($hFile['payload4'] != '0') {
+                    $hName = $payloadNames[4];
+                }
+                if ($hFile['payload5'] != '0') {
+                    $hName = $payloadNames[5];
+                }
+                if ($hFile['payload6'] != '0') {
+                    $hName = $payloadNames[6];
+                }
+                if ($hFile['payload7'] != '0' && $hFile['payload7'] != '000') {
+                    $hName = $payloadNames[7];
+                }
+                if ($hFile['payload8'] != '0' && $hFile['payload8'] != '000') {
+                    $hName = $payloadNames[8];
+                }
+
                 $hFile['target_days'] = 1;
 
                 $userData = @$efFile[$hFile['sikibetu_id']];
@@ -877,6 +911,7 @@ class Dpc extends Model
                     // efファイルに存在しない場合
                     if (!isset($userData['a_date_check'][$doDate])) {
                         $userData['a_date_check'][$doDate] = [
+                            'h_name' => $hName,
                             'status' => 'h_only',
                             'h_byoutou' => $hFile['byoutou_code'],
                             'remark' => implode(' ', [
@@ -916,20 +951,36 @@ class Dpc extends Model
 
                 if ($doDate > $maxDate->format('Y-m-d')) continue;	// 最終日以降の日付の場合はスキップ
 
-                if ($hFile['payload1'] != '0')
+                $hName = '';
+                $payloadNames = config('my.h_file.payload_names.c');
+                if ($hFile['payload1'] != '0') {
                     $hFile['target_days'] = 7;
-                if ($hFile['payload2'] != '0')
+                    $hName = $payloadNames[1];
+                }
+                if ($hFile['payload2'] != '0') {
                     $hFile['target_days'] = 7;
-                if ($hFile['payload3'] != '0')
+                    $hName = $payloadNames[2];
+                }
+                if ($hFile['payload3'] != '0') {
                     $hFile['target_days'] = 5;
-                if ($hFile['payload4'] != '0')
+                    $hName = $payloadNames[3];
+                }
+                if ($hFile['payload4'] != '0') {
                     $hFile['target_days'] = 5;
-                if ($hFile['payload5'] != '0')
+                    $hName = $payloadNames[4];
+                }
+                if ($hFile['payload5'] != '0') {
                     $hFile['target_days'] = 3;
-                if ($hFile['payload6'] != '0')
+                    $hName = $payloadNames[5];
+                }
+                if ($hFile['payload6'] != '0') {
                     $hFile['target_days'] = 2;
-                if ($hFile['payload7'] != '0' && $hFile['payload7'] != '000')
+                    $hName = $payloadNames[6];
+                }
+                if ($hFile['payload7'] != '0' && $hFile['payload7'] != '000') {
                     $hFile['target_days'] = 2;
+                    $hName = $payloadNames[7];
+                }
 
                 $userData = @$efFile[$hFile['sikibetu_id']];
                 if (!$userData) {
@@ -995,6 +1046,7 @@ class Dpc extends Model
                     // efファイルに存在しない場合
                     if (!isset($userData['c_date_check'][$doDate])) {
                         $userData['c_date_check'][$doDate] = [
+                            'h_name' => $hName,
                             'status' => 'h_only',
                             'h_byoutou' => $hFile['byoutou_code'],
                             'remark' => implode(' ', [

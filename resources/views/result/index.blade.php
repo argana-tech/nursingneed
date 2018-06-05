@@ -38,26 +38,63 @@
                   </select>
                 </div>
               </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label>病棟</label>
+                  @php $wardOld = $search['ward'] ?? ''; @endphp
+                  <select name="ward" class="form-control">
+                    <option value="" selected="selected">全て</option>
+                    @foreach(\App\ResultTargetDay::getCreatedWards() as $ward)
+                    <option value="{{ $ward }}" @if($wardOld == $ward) selected="selected"@endif>{{ $ward }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-4">
+              </div>
+
+              <div class="col-xs-2">
+                @if(!empty($wardOld))
+                @php
+                  $hCount = Auth::guard('web')->user()->resultTargetDayHCount($wardOld);
+                  $efCount = Auth::guard('web')->user()->resultTargetDayEFCount($wardOld);
+                  $matchCount = Auth::guard('web')->user()->resultTargetDayMatchCount($wardOld);
+                @endphp
+                  <div class="panel panel-default" style="margin-bottom:0;">
+                    <div class="panel-heading" style="padding:5px;font-weight:bold;">{{ $wardOld }} の入力割合</div>
+                    <div class="panel-body" style="padding:5px;">
+                      <table>
+                        <tr><td>Hファイル</td><td>：@if($hCount){{ floor($matchCount / $hCount * 10000) / 100 }}% @else なし @endif</td></tr>
+                        <tr><td>EFファイル</td><td>：@if($efCount){{ floor($matchCount / $efCount * 10000) / 100 }}% @else なし @endif</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                @endif
+              </div>
+
             </div>
             <!-- / .row -->
           </div>
           <!-- / .panel-body -->
           <div class="panel-footer clearfix">
             <input type="hidden" name="{{ $month }}" value="{{ $month }}">
-            <div class="pull-right"><a href="{{ route('results.index') }}" class="btn btn-default">抽出条件をクリア</a>
+            <div class="pull-left"><a href="{{ route('results.index') }}" class="btn btn-default">抽出条件をクリア</a>
               <button type="submit" class="btn btn-primary">検索</button>
             </div>
+            <div class="pull-right"><a href="{{ route('results.download') }}" class="btn btn-success" onclick="return confirm('データによっては数分程度の時間がかかることがあります')">病棟別入力割合ダウンロード</a></div>
           </div>
           <!-- / .panel-footer -->
         </div>
         <!-- / .panel panel-default -->
       </form>
+
       <div class="m_u10">
         <div class="clearfix">
           <div class="pull-left"><span class="glyphicon glyphicon-calendar"></span> {{ Carbon\Carbon::parse($month . "-01")->format('Y') }}年<span class="h3">{{ Carbon\Carbon::parse($month . "-01")->format('m') }}</span>月</div>
           <div class="pull-left" style="margin-left:15px;">
-            @if(Carbon\Carbon::parse($resultMinDate)->format('Ym') < Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&month={{ Carbon\Carbon::parse($month . "-01")->subMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">前月</a>@endif
-            @if(Carbon\Carbon::parse($resultMaxDate)->format('Ym') > Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&month={{ Carbon\Carbon::parse($month . "-01")->addMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">次月</a>@endif
+            @if(Carbon\Carbon::parse($resultMinDate)->format('Ym') < Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&ward={{ $wardOld }}&month={{ Carbon\Carbon::parse($month . "-01")->subMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">前月</a>@endif
+            @if(Carbon\Carbon::parse($resultMaxDate)->format('Ym') > Carbon\Carbon::parse($month . "-01")->format('Ym'))<a href="{{ route('results.index') }}?identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&ward={{ $wardOld }}&month={{ Carbon\Carbon::parse($month . "-01")->addMonth()->format('Y-m') }}" class="btn btn-default btn-xs" type="submit">次月</a>@endif
           </div>
           <!-- / .pull-left -->
           <div class="pull-right">@if($updatedResult) 更新日 : {{ Carbon\Carbon::parse($updatedResult)->format('Y-m-d H:i') }}@endif</div>
@@ -111,8 +148,8 @@
           <tbody class="infinite-scroll-items">
             @foreach($results as $result)
               @php
-                $resultADays = $result->resultADays($month, $firstDay, $endDay);
-                $resultCDays = $result->resultCDays($month, $firstDay, $endDay);
+                $resultADays = $result->resultADays($month, $firstDay, $endDay, $search);
+                $resultCDays = $result->resultCDays($month, $firstDay, $endDay, $search);
               @endphp
             <tr>
               <td rowspan="3" class="head">
@@ -145,7 +182,12 @@
                   @if ($resultDay->status == 'checked')
                   <td class="color-white"></td>
                   @elseif ($resultDay->status == 'h_only')
-                  <td class="color-yellow"></td>
+                  <td class="color-yellow hover">
+                    <div class="details">
+                      <div class="ope"> {{ $resultDay->h_name }}</div>
+                      <div class="count"></div>
+                    </div>
+                  </td>
                   @elseif ($resultDay->status == 'not checked')
                   <td class="color-red hover">
                     <div class="details">
@@ -170,7 +212,12 @@
                   @elseif ($resultDay->status == 'checked')
                   <td class="color-white"></td>
                   @elseif ($resultDay->status == 'h_only')
-                  <td class="color-yellow"></td>
+                  <td class="color-yellow hover">
+                    <div class="details">
+                      <div class="ope"> {{ $resultDay->h_name }}</div>
+                      <div class="count"></div>
+                    </div>
+                  </td>
                   @elseif ($resultDay->status == 'not checked')
                   <td class="color-red hover">
                     <div class="details">
@@ -190,7 +237,7 @@
 
         <span id="loading_box_parent">
         @if ($results->nextPageUrl())
-        <div id="loading_box" data-next-page-url="{{ $results->nextPageUrl() }}"></div>
+        <div id="loading_box" data-next-page-url="{{ $results->nextPageUrl() }}&identification_id={{ $identificationIdOld }}&select= {{ $selectOld }}&ward={{ $wardOld }}&month={{ $month }}"></div>
         <div id="loading_box_image"><img src="{{ asset('img/icon_loader_27.gif') }}" alt=""></div>
         @endif
         </span>

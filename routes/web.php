@@ -56,12 +56,18 @@ Route::group(['middleware' => ['auth:web']], function () {
         'uses' => 'DpcController@upload',
     ]);
 
+    Route::get('results/download', [
+        'as' => 'results.download',
+        'uses' => 'ResultController@download',
+    ]);
+
     // 結果
     Route::resource(
         'results',
         'ResultController',
         ['only' => ['index', 'show']]
     );
+
 
     // マスタ
     Route::group(['namespace' => 'Master', 'prefix' => 'master'], function () {

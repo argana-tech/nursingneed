@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Result;
 use App\ResultTargetDay;
+use App\WardCsv;
 
 class ResultController extends Controller
 {
@@ -23,6 +24,7 @@ class ResultController extends Controller
         $search = $request->only([
             'identification_id',
             'select',
+            'ward',
         ]);
 
         $results = $user->results();
@@ -37,13 +39,38 @@ class ResultController extends Controller
         } else {
             $results = $results->where('is_child', '=', 0)->where('is_obstetrics', '=', 0);
         }
+        // 病棟 EF, Hに存在するか
+        if (isset($search['ward']) && $search['ward'] != ''){
+            $results = $results->whereIn('id', function ($query) use ($search)
+                {
+                    $query->select('result_id')
+                        ->from('result_target_days')
+                        ->orWhere('h_ward', $search['ward'])
+                        ->orWhere('ef_ward', $search['ward']);
+                }
+            );
+        }
 
         $results = $results->paginate(50);
 
-        // 最小、最大月
-        $resultMinDate = $user->resultTargetDays->min('date');
+        // 最小月
+        $resultMinDate = $user->resultTargetDays();
+        if (isset($search['ward']) && $search['ward'] != ''){
+            $resultMinDate = $resultMinDate
+                ->orWhere('h_ward', $search['ward'])
+                ->orWhere('ef_ward', $search['ward']);
+        }
+        $resultMinDate = $resultMinDate->min('date');
 
-        $resultMaxDate = $user->resultTargetDays->max('date');
+        // 最大月
+        $resultMaxDate = $user->resultTargetDays();
+        if (isset($search['ward']) && $search['ward'] != ''){
+            $resultMaxDate = $resultMaxDate
+                ->orWhere('h_ward', $search['ward'])
+                ->orWhere('ef_ward', $search['ward']);
+        }
+        $resultMaxDate = $resultMaxDate->max('date');
+
 
         if (!$resultMinDate)
             $resultMinDate = Carbon::today()->format('Y-m-d');
@@ -79,6 +106,31 @@ class ResultController extends Controller
             'month',
             'result'
         ));
+    }
+
+    /**
+     * 病棟別入力割合CSVダウンロード
+     *
+     * @param void
+     *
+     * @return \Illuminate\View\View
+     */
+    public function download()
+    {
+        $csv = WardCsv::download();
+
+        // response
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Length' => strlen($csv),
+            'Content-Disposition' => 'attachment; filename="wards.csv"',
+        ];
+
+        return \Response::make(
+            $csv,
+            200,
+            $headers
+        );
     }
 
 }

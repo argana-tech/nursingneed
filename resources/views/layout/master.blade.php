@@ -147,7 +147,7 @@ $(function(){
   var localStrageKey = '{{ Auth::guard('web')->check()? Auth::guard('web')->user()->strageKey() : '' }}';
 </script>
 
-<script type="text/javascript" src="{{ asset('js/script.js') }}?180320"></script>
+<script type="text/javascript" src="{{ asset('js/script.js') }}?180531"></script>
 
 </body>
 </html>

@@ -19,6 +19,8 @@ class Result extends Model
         'user_id', 'identification_id', 'target_days', 'unchecked_days', 'is_obstetrics', 'is_child', 'remark'
     ];
 
+    private $search = [];
+
     public function resultDays($month, $firstDay, $endDay) {
         // 対象期間
         $firstDate = Carbon::parse($month.'-'.$firstDay);
@@ -35,7 +37,9 @@ class Result extends Model
         return $targetDays;
     }
 
-    public function resultADays($month, $firstDay, $endDay) {
+    public function resultADays($month, $firstDay, $endDay, $search = []) {
+        $this->search = $search;
+
         // 対象期間
         $firstDate = Carbon::parse($month.'-'.$firstDay);
         $endDate = Carbon::parse($month.'-'.$endDay);
@@ -79,7 +83,9 @@ class Result extends Model
         return $targetDays;
     }
 
-    public function resultCDays($month, $firstDay, $endDay) {
+    public function resultCDays($month, $firstDay, $endDay, $search = []) {
+        $this->search = $search;
+
         // 対象期間
         $firstDate = Carbon::parse($month.'-'.$firstDay);
         $endDate = Carbon::parse($month.'-'.$endDay);
@@ -164,15 +170,37 @@ class Result extends Model
     }
 
     public function resultTargetADays() {
-        return $this->hasMany('App\ResultTargetDay')
+        $search = $this->search;
+
+        $resultTargetDays = $this->hasMany('App\ResultTargetDay')
             ->where('content_type', '=', 'A')
-            ->orderBy('date', 'asc');
+            ;
+
+        if (isset($search['ward']) && $search['ward'] != '') {
+            $resultTargetDays = $resultTargetDays->where(function($query) use ($search){
+                $query->orWhere('h_ward', $search['ward'])
+                ->orWhere('ef_ward', $search['ward']);
+            });
+        }
+
+        return $resultTargetDays->orderBy('date', 'asc');
     }
 
     public function resultTargetCDays() {
-        return $this->hasMany('App\ResultTargetDay')
+        $search = $this->search;
+
+        $resultTargetDays = $this->hasMany('App\ResultTargetDay')
             ->where('content_type', '=', 'C')
-            ->orderBy('date', 'asc');
+            ;
+
+        if (isset($search['ward']) && $search['ward'] != '') {
+            $resultTargetDays = $resultTargetDays->where(function($query) use ($search){
+                $query->orWhere('h_ward', $search['ward'])
+                ->orWhere('ef_ward', $search['ward']);
+            });
+        }
+
+        return $resultTargetDays->orderBy('date', 'asc');
     }
 
     public function resultTargetDays() {

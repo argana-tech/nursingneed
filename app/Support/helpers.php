@@ -59,3 +59,10 @@ if (!function_exists('check_is_date')) {
         return true;
     }
 }
+
+if (!function_exists('ltrim_zero')) {
+    function ltrim_zero($str)
+    {
+        return ltrim($str, "0");
+    }
+}

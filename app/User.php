@@ -129,6 +129,68 @@ class User extends Authenticatable
         );
     }
 
+    /*
+     * EFファイルの入力件数
+     * 
+     * @param string $ward 病棟
+     * @return integer count
+     */
+    public function resultTargetDayEFCount($ward, $date = null) {
+        return $this->resultTargetDayByWard($ward, $date)
+            ->where(function($query){
+                $query->orWhere('status', 'checked')
+                ->orWhere('status', 'not checked');
+            })
+            ->count();
+    }
+
+    /*
+     * Hファイルの入力件数
+     * 
+     * @param string $ward 病棟
+     * @return integer count
+     */
+    public function resultTargetDayHCount($ward, $date = null) {
+        return $this->resultTargetDayByWard($ward, $date)
+            ->where(function($query){
+                $query->orWhere('status', 'checked')
+                ->orWhere('status', 'h_only');
+            })
+            ->count();
+    }
+
+    /*
+     * 両方にあるデータの件数
+     * 
+     * @param string $ward 病棟
+     * @return integer count
+     */
+    public function resultTargetDayMatchCount($ward, $date = null) {
+        return $this->resultTargetDayByWard($ward, $date)
+            ->where('status', 'checked')
+            ->count();
+    }
+
+    /*
+     * ResultTargetDayを病棟で絞込み
+     * 
+     * @param string $ward 病棟
+     * @return
+     */
+    public function resultTargetDayByWard($ward, $date = null) {
+        $targetDays = $this->hasMany('App\ResultTargetDay')
+            ->where(function($query) use ($ward){
+                $query->orWhere('h_ward', $ward)
+                ->orWhere('ef_ward', $ward);
+            });
+
+        if ($date) {
+            $targetDays = $targetDays->where('date', $date);
+        }
+
+        return $targetDays;
+    }
+
     public function systemSetting() {
         return $this->hasOne('App\SystemSetting');
     }

@@ -95,7 +95,7 @@ $(function(){
     // 検索時に 識別IDの復号
     $('input[name=identification_id_work]').change(function(){
       var id = $(this).val();
-      if (code) {
+      if (id != '' && code) {
         id = parseInt(id) + parseInt(code);
       }
       $('input[name=identification_id]').val(id);
